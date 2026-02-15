@@ -1,0 +1,208 @@
+name: Release OpenccPyo3Gui
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_suffix: linux-x64
+            archive_name: OpenccPyo3Gui-${{ github.ref_name }}-linux-x64.tar.gz
+
+          - os: windows-latest
+            artifact_suffix: win-x64
+            archive_name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64.zip
+
+          - os: macos-15-intel
+            artifact_suffix: macos-x64
+            archive_name: OpenccPyo3Gui-${{ github.ref_name }}-macos-x64.zip
+            pdfium_plat: macos-x64
+
+          - os: macos-latest
+            artifact_suffix: macos-arm64
+            archive_name: OpenccPyo3Gui-${{ github.ref_name }}-macos-arm64.zip
+            pdfium_plat: macos-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r requirements.txt
+
+      - name: Linux prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y patchelf libgl1 libx11-xcb1 libxkbcommon-x11-0 libxcb-cursor0 libnss3
+
+      - name: Show tool versions
+        shell: bash
+        run: |
+          python --version
+          python -m nuitka --version || true
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            patchelf --version || true
+          else
+            echo "Skipping patchelf check (not Linux)."
+          fi
+
+      # ---------- Build per OS so we can pass the right flags ----------
+      - name: Build (Linux, Nuitka)
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          PDFIUM_PLAT: linux-x64
+        run: |
+          python -m nuitka \
+            --standalone \
+            --enable-plugin=pyside6 \
+            --include-package=opencc_purepy \
+            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts \
+            --include-raw-dir=pdf_module/pdfium/${PDFIUM_PLAT}=pdf_module/pdfium/${PDFIUM_PLAT} \
+            --output-filename=OpenccPyo3Gui \
+            --lto=yes \
+            --assume-yes-for-downloads \
+            mainwindow.py
+
+      - name: Build (Windows, Nuitka + optional icon + no console)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $iconFlag = ""
+          if (Test-Path "resource/openccpyo3gui.ico") {
+            $iconFlag = "--windows-icon-from-ico=resource/openccpyo3gui.ico"
+          }
+
+          $pdfiumFlag = ""
+          if (Test-Path "pdf_module/pdfium/win-x64/pdfium.dll") {
+            $pdfiumFlag = "--include-raw-dir=pdf_module/pdfium/win-x64=pdf_module/pdfium/win-x64"
+          }
+
+          python -m nuitka `
+            --standalone `
+            --enable-plugin=pyside6 `
+            --include-package=opencc_purepy `
+            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts `
+            --output-filename=OpenccPyo3Gui `
+            --windows-console-mode=disable `
+            --lto=yes `
+            --assume-yes-for-downloads `
+            $pdfiumFlag `
+            $iconFlag `
+            mainwindow.py      
+
+      - name: Build (macOS, Nuitka + app icon)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          ICON_FLAG=""
+          if [ -f "resource/openccpyo3gui.icns" ]; then
+            ICON_FLAG="--macos-app-icon=resource/openccpyo3gui.icns"
+          fi
+
+          PDFIUM_PLAT="${{ matrix.pdfium_plat }}"
+
+          PDFIUM_FLAG=""
+          if [ -d "pdf_module/pdfium/$PDFIUM_PLAT" ]; then
+            PDFIUM_FLAG="--include-raw-dir=pdf_module/pdfium/$PDFIUM_PLAT=pdf_module/pdfium/$PDFIUM_PLAT"
+          else
+            echo "PDFium folder missing: pdf_module/pdfium/$PDFIUM_PLAT"
+          fi
+
+          python -m nuitka \
+            --standalone \
+            --enable-plugin=pyside6 \
+            --include-package=opencc_purepy \
+            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts \
+            --output-filename=OpenccPyo3Gui \
+            --lto=yes \
+            --assume-yes-for-downloads \
+            ${PDFIUM_FLAG} \
+            ${ICON_FLAG} \
+            mainwindow.py
+
+      # ---------- Package artifacts ----------
+      - name: Package artifact (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          archive_name: ${{ matrix.archive_name }}
+        run: |
+          tar -czf "$archive_name" -C mainwindow.dist .
+
+      - name: Package artifact (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          archive_name: ${{ matrix.archive_name }}
+        run: |
+          Compress-Archive -Path mainwindow.dist\* -DestinationPath $env:archive_name
+
+      - name: Package artifact (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        env:
+          archive_name: ${{ matrix.archive_name }}
+        run: |
+          cd mainwindow.dist
+          zip -r "../$archive_name" .
+          cd ..
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenccPyo3Gui-${{ github.ref_name }}-${{ matrix.artifact_suffix }}
+          path: ${{ matrix.archive_name }}
+          if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: List files
+        run: |
+          echo "Artifacts downloaded to ./dist"
+          find dist -type f -maxdepth 2
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: OpenccPyo3Gui ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/**/*
