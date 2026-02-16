@@ -4,11 +4,11 @@
 [![Total Downloads](https://img.shields.io/github/downloads/laisuk/openccpyo3gui/total.svg)](https://github.com/laisuk/openccpyo3gui/releases)
 [![Latest Downloads](https://img.shields.io/github/downloads/laisuk/openccpyo3gui/latest/total.svg)](https://github.com/laisuk/openccpyo3gui/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Release](https://github.com/laisuk/OpenccpurepyGui/actions/workflows/release.yml/badge.svg)
+![Release](https://github.com/laisuk/OpenccPyo3Gui/actions/workflows/release.yml/badge.svg)
 
 **OpenccPyo3Gui** is a Chinese text conversion application built with PySide6 and the Qt design framework. It
 leverages
-the [opencc-purepy](https://github.com/laisuk/opencc_purepy) Python module to provide simplified and traditional
+the [opencc-pyo3](https://github.com/laisuk/opencc_pyo3) Python module to provide simplified and traditional
 Chinese conversion.
 
 ---
@@ -27,7 +27,9 @@ at [Release](https://github.com/laisuk/OpenccPyo3Gui/releases) section.
 
 - **Chinese Conversion**: Convert between simplified and traditional Chinese text.
 - **Single/Batch Conversion**: Perform Chinese text conversion in single or batch mode.
-- Designed to convert most **text based file types** and **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`)
+- Designed to convert most **text based file types**, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`) and
+  EPUB (`.epub`).
+- **Text-embedded PDF document** also supported.
 
 ---
 
@@ -37,7 +39,8 @@ at [Release](https://github.com/laisuk/OpenccPyo3Gui/releases) section.
   ```bash
   pip install PySide6
   ```
-- [opencc-purepy](https://github.com/laisuk/opencc_purepy): Pure Python module for conversions between Traditional and
+- [opencc-pyo3](https://github.com/laisuk/opencc_pyo3): High performance PyO3 Python module for conversions between
+  Traditional and
   Simplified Chinese.
 
 ---
@@ -70,7 +73,7 @@ python ./mainwindow.py
 
 ![image01](./assets/image01.png)
 
-Support most **text base** file types.
+Support most **text base** file types, **Word/ODT**, **EPUB** and **text-embedded PDF**.
 
 1. Paste the text or open a file you wish to convert (file/text drag and drop are supported).
 2. Select the desired conversion configuration (e.g., Simplified to Traditional).
@@ -83,8 +86,8 @@ Support most **text base** file types.
 ![image02](./assets/image02.png)
 ![image03](./assets/image03.png)
 
-Support most **text base** file types, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`, `.ods`, `.odp`) and
-EPUB (`.epub`).
+Support most **text base** file types, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`, `.ods`, `.odp`), **EPUB
+** (`.epub`) and **Text-Embedded PDF**.
 
 1. Select or drag file(s) into the source list box.
 2. Select the desired conversion configuration.
@@ -103,6 +106,7 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ## Acknowledgements
 
 - [OpenCC](https://github.com/BYVoid/OpenCC) for the Chinese text conversion lexicon.
-- [opencc-purepy](https://github.com/laisuk/opencc_purepy) Pure Python implementation of OpenCC for Chinese text
+- [opencc-pyo3](https://github.com/laisuk/opencc_purepy) High performance PyO3 Python implementation of OpenCC for
+  Chinese text
   conversion.
 - [PySide6](https://wiki.qt.io/Qt_for_Python) Python bindings for the Qt cross-platform application and UI framework.

@@ -14,7 +14,7 @@ from __future__ import annotations
 import ctypes
 from typing import Callable, Any, Tuple, List
 
-from pdfium_loader import load_pdfium
+from .pdfium_loader import load_pdfium
 
 # ==============================================================================
 #  PDFium basic types (equivalent to C# IntPtr)
