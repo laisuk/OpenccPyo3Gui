@@ -4,9 +4,9 @@
     Name="OpenccPyo3Gui"
     Manufacturer="Laisuk@2026"
     Id="*"
-    UpgradeCode="40afec5d-369d-44ef-9459-e34e2d2149ff"
+    UpgradeCode="a864bbc0-9a92-435b-941b-32b8d9737ae7"
     Language="1033"
-    Version="1.2.0">
+    Version="1.0.0">
 
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64" />
 
@@ -39,7 +39,7 @@
 
     <!-- Start Menu shortcut component -->
     <DirectoryRef Id="AppProgramMenuDir">
-      <Component Id="ApplicationShortcutStartMenu" Guid="97a770c1-e492-4f68-8960-a6ebad0aa0df">
+      <Component Id="ApplicationShortcutStartMenu" Guid="f4cf2762-8fe2-4521-8614-0f0c8fef079a">
         <!-- HKCU KeyPath satisfies ICE43/ICE57 -->
         <RegistryValue Root="HKCU"
                        Key="Software\OpenccPyo3Gui"
@@ -59,7 +59,7 @@
 
     <!-- Desktop shortcut component -->
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="ApplicationShortcutDesktop" Guid="c6c431a7-2bce-468f-b88e-1a2cb282788f">
+      <Component Id="ApplicationShortcutDesktop" Guid="c1a027dd-d2d1-449f-84c6-5c195a930933">
         <!-- HKCU KeyPath -->
         <RegistryValue Root="HKCU"
                        Key="Software\OpenccPyo3Gui"

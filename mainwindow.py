@@ -371,10 +371,10 @@ class MainWindow(QMainWindow):
         dlg = AboutDialog(
             AboutInfo(
                 app_name="OpenccPyo3Gui",
-                version="1.2.0",
+                version="1.0.0",
                 author="Laisuk",
                 year="2026",
-                description="Open Chinese Simplified / Traditional Converter\nPowered by OpenCC Pure Python + Pdfium",
+                description="Open Chinese Simplified / Traditional Converter\nPowered by Opencc-Pyo3 + Pdfium",
                 website_url="https://github.com/laisuk/OpenccPyo3Gui",
                 license_url="https://opensource.org/licenses/MIT",
                 details=details,

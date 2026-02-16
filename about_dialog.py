@@ -97,7 +97,7 @@ class AboutDialog(QDialog):
         browser.setOpenExternalLinks(True)
         browser.setFrameShape(QFrame.Shape.NoFrame)
         browser.setObjectName("AboutBrowser")
-        browser.setMinimumHeight(120)
+        browser.setMinimumHeight(150)
 
         links_html = []
         if info.website_url:
