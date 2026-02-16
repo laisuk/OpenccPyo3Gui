@@ -27,12 +27,10 @@ jobs:
           - os: macos-15-intel
             artifact_suffix: macos-x64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-macos-x64.zip
-            pdfium_plat: macos-x64
 
           - os: macos-latest
             artifact_suffix: macos-arm64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-macos-arm64.zip
-            pdfium_plat: macos-arm64
 
     steps:
       - name: Checkout
@@ -83,9 +81,8 @@ jobs:
           python -m nuitka \
             --standalone \
             --enable-plugin=pyside6 \
-            --include-package=opencc_purepy \
-            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts \
-            --include-raw-dir=pdf_module/pdfium/${PDFIUM_PLAT}=pdf_module/pdfium/${PDFIUM_PLAT} \
+            --include-package=opencc_pyo3 \
+            --include-package-data=opencc_pyo3:*.so \
             --output-filename=OpenccPyo3Gui \
             --lto=yes \
             --assume-yes-for-downloads \
@@ -99,22 +96,16 @@ jobs:
           if (Test-Path "resource/openccpyo3gui.ico") {
             $iconFlag = "--windows-icon-from-ico=resource/openccpyo3gui.ico"
           }
-
-          $pdfiumFlag = ""
-          if (Test-Path "pdf_module/pdfium/win-x64/pdfium.dll") {
-            $pdfiumFlag = "--include-raw-dir=pdf_module/pdfium/win-x64=pdf_module/pdfium/win-x64"
-          }
-
+          
           python -m nuitka `
             --standalone `
             --enable-plugin=pyside6 `
-            --include-package=opencc_purepy `
-            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts `
+            --include-package=opencc_pyo3 `
+            --include-package-data=opencc_pyo3:*.dll `
             --output-filename=OpenccPyo3Gui `
             --windows-console-mode=disable `
             --lto=yes `
             --assume-yes-for-downloads `
-            $pdfiumFlag `
             $iconFlag `
             mainwindow.py      
 
@@ -127,24 +118,14 @@ jobs:
             ICON_FLAG="--macos-app-icon=resource/openccpyo3gui.icns"
           fi
 
-          PDFIUM_PLAT="${{ matrix.pdfium_plat }}"
-
-          PDFIUM_FLAG=""
-          if [ -d "pdf_module/pdfium/$PDFIUM_PLAT" ]; then
-            PDFIUM_FLAG="--include-raw-dir=pdf_module/pdfium/$PDFIUM_PLAT=pdf_module/pdfium/$PDFIUM_PLAT"
-          else
-            echo "PDFium folder missing: pdf_module/pdfium/$PDFIUM_PLAT"
-          fi
-
           python -m nuitka \
             --standalone \
             --enable-plugin=pyside6 \
-            --include-package=opencc_purepy \
-            --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts \
+            --include-package=opencc_pyo3 \
+            --include-package-data=opencc_pyo3:*.dylib \
             --output-filename=OpenccPyo3Gui \
             --lto=yes \
             --assume-yes-for-downloads \
-            ${PDFIUM_FLAG} \
             ${ICON_FLAG} \
             mainwindow.py
 
