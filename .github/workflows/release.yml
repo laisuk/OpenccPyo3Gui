@@ -23,7 +23,7 @@ jobs:
           - os: windows-latest
             artifact_suffix: win-x64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64.zip
-            msi_name: OpenccPyo3Gui-setup.msi
+            msi_name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64-setup.msi
 
           - os: macos-15-intel
             artifact_suffix: macos-x64
