@@ -86,8 +86,8 @@ Support most **text base** file types, **Word/ODT**, **EPUB** and **text-embedde
 ![image02](./assets/image02.png)
 ![image03](./assets/image03.png)
 
-Support most **text base** file types, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`, `.ods`, `.odp`), **EPUB
-** (`.epub`) and **Text-Embedded PDF**.
+Support most **text base** file types, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`, `.ods`, `.odp`),  
+**EPUB** (`.epub`) and **Text-Embedded PDF**.
 
 1. Select or drag file(s) into the source list box.
 2. Select the desired conversion configuration.
