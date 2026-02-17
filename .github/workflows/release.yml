@@ -50,9 +50,9 @@ jobs:
         run: |
           brew update
           brew install python@3.10 openssl@3
-          echo "/usr/local/opt/python@3.10/bin" >> $GITHUB_PATH
-          # Force link so 'python' command uses this version
+          # This forces 'python' and 'pip' to point to the Brew 3.10 version
           brew link --overwrite python@3.10
+          echo "/usr/local/opt/python@3.10/bin" >> $GITHUB_PATH
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -139,7 +139,7 @@ jobs:
             ICON_FLAG="--macos-app-icon=resource/openccpyo3gui.icns"
           fi
 
-          python3 -m nuitka \
+          python -m nuitka \
             --standalone \
             --enable-plugin=pyside6 \
             --include-package=opencc_pyo3 \
