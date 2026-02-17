@@ -10,9 +10,11 @@ cd $OUT
 
 2) Harvest the dist folder (heat.exe)
 
+$ver = "1.0.0"
 $SRC = "D:\codes\Python\OpenccPyo3Gui\OpenccPyo3Gui.dist"
 $OUT = "D:\codes\Python\OpenccPyo3Gui\installer"
 cd $OUT
+
 
 Generate component definitions for all files in your .dist directory.
 
@@ -73,6 +75,7 @@ Compile both .wxs files to object files and link them into an MSI installer.
 
 # Compile
 candle.exe -arch x64 -dSourceDir="$SRC" Product.wxs AppFiles.wxs
+candle.exe -arch x64 -dSourceDir="$SRC" -dAppVersion="$ver" Product.wxs AppFiles.wxs
 
 # Link
 light.exe Product.wixobj AppFiles.wixobj `

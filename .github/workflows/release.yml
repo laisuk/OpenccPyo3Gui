@@ -23,6 +23,7 @@ jobs:
           - os: windows-latest
             artifact_suffix: win-x64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64.zip
+            msi_name: OpenccPyo3Gui-setup.msi
 
           - os: macos-15-intel
             artifact_suffix: macos-x64
@@ -129,6 +130,103 @@ jobs:
             ${ICON_FLAG} \
             mainwindow.py
 
+      - name: Build MSI (Windows, WiX 3.14 binaries + Heat harvest)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          MSI_NAME: ${{ matrix.msi_name }}
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          # ----------------------------
+          # WiX binaries (no installer)
+          # ----------------------------
+          $wixRoot = Join-Path $env:RUNNER_TEMP "wix314"
+          $wixZip  = Join-Path $env:RUNNER_TEMP "wix314-binaries.zip"
+
+          # WiX 3.14 binaries zip URL (GitHub release asset)
+          # https://github.com/wixtoolset/wix3/releases/download/wix314rtm/wix314-binaries.zip
+          Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix314rtm/wix314-binaries.zip" -OutFile $wixZip
+          Expand-Archive -Path $wixZip -DestinationPath $wixRoot -Force
+
+          $heat   = Join-Path $wixRoot "heat.exe"
+          $candle = Join-Path $wixRoot "candle.exe"
+          $light  = Join-Path $wixRoot "light.exe"
+
+          foreach ($t in @($heat,$candle,$light)) {
+            if (-not (Test-Path $t)) { throw "Missing WiX tool: $t" }
+          }
+
+          # ----------------------------
+          # Inputs
+          # ----------------------------
+          $wxs = "installer\Product.wxs"
+          if (-not (Test-Path $wxs)) { throw "Missing $wxs" }
+
+          $distDir = (Resolve-Path "mainwindow.dist").Path
+          if (-not (Test-Path $distDir)) { throw "Missing mainwindow.dist" }
+
+          # Tag "v1.2.3" -> "1.2.3" (MSI requires x.y.z)
+          $tag = "${{ github.ref_name }}"
+          $ver = $tag.TrimStart("v")
+
+          # Output dir for wix intermediate
+          $wixOut = Join-Path $env:RUNNER_TEMP "wix_out"
+          New-Item -ItemType Directory -Force -Path $wixOut | Out-Null
+
+          $appFilesWxs = Join-Path $wixOut "AppFiles.wxs"
+
+          # ----------------------------
+          # Harvest mainwindow.dist -> ComponentGroup AppFiles
+          # ----------------------------
+          # -dr INSTALLFOLDER : put files under your INSTALLFOLDER directory
+          # -cg AppFiles      : matches <ComponentGroupRef Id="AppFiles" />
+          # -gg               : generate stable GUIDs
+          # -srd              : suppress root directory element (we already have INSTALLFOLDER)
+          # -sfrag            : output as a fragment
+          # -var var.SourceDir: use $(var.SourceDir) in generated Source paths
+          & $heat dir "$distDir" `
+            -nologo `
+            -dr INSTALLFOLDER `
+            -cg AppFiles `
+            -gg `
+            -srd `
+            -sfrag `
+            -var var.SourceDir `
+            -out "$appFilesWxs"
+
+          if (-not (Test-Path $appFilesWxs)) { throw "Heat failed to produce $appFilesWxs" }
+
+          # ----------------------------
+          # Compile + link MSI
+          # ----------------------------
+          $obj1 = Join-Path $wixOut "Product.wixobj"
+          $obj2 = Join-Path $wixOut "AppFiles.wixobj"
+
+          & $candle `
+            -nologo `
+            -ext WixUIExtension `
+            -dSourceDir="$distDir" `
+            -dAppVersion="$ver" `
+            -out "$obj1" `
+            "$wxs"
+
+          & $candle `
+            -nologo `
+            -dSourceDir="$distDir" `
+            -out "$obj2" `
+            "$appFilesWxs"
+
+          & $light `
+            -nologo `
+            -ext WixUIExtension `
+            -sval `
+            -out (Join-Path (Get-Location) $env:MSI_NAME) `
+            "$obj1" "$obj2"
+
+          if (-not (Test-Path $env:MSI_NAME)) { throw "MSI not produced: $env:MSI_NAME" }
+          Write-Host "Built MSI: $env:MSI_NAME"
+
       # ---------- Package artifacts ----------
       - name: Package artifact (Linux)
         if: runner.os == 'Linux'
@@ -161,6 +259,14 @@ jobs:
         with:
           name: OpenccPyo3Gui-${{ github.ref_name }}-${{ matrix.artifact_suffix }}
           path: ${{ matrix.archive_name }}
+          if-no-files-found: error
+
+      - name: Upload artifact (MSI)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64-msi
+          path: ${{ matrix.msi_name }}
           if-no-files-found: error
 
   release:
