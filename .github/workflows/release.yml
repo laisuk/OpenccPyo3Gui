@@ -37,22 +37,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Use standard setup for everything EXCEPT macOS Intel
+      # Use standard setup for everything EXCEPT macOS Intel.
+      # On macos-15-intel, we skip 'setup-python' because the runner's pre-installed
+      # "Official CPython 3.14" is better integrated with macOS system paths and
+      # Homebrew OpenSSL. Using 'setup-python' on Intel can cause path shadowing
+      # and 'libssl' resolution errors that crash the Nuitka dependency scanner.
       - name: Set up Python (Standard)
         if: matrix.os != 'macos-15-intel'
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      # Use Homebrew Python for Intel to solve the OpenSSL path mismatch
-      - name: Set up Python (macOS Intel)
-        if: matrix.os == 'macos-15-intel'
-        run: |
-          brew update
-          brew install python@3.10 openssl@3
-          # This forces 'python' and 'pip' to point to the Brew 3.10 version
-          brew link --overwrite python@3.10
-          echo "/usr/local/opt/python@3.10/bin" >> $GITHUB_PATH
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -125,8 +119,14 @@ jobs:
         if: matrix.os == 'macos-15-intel'
         shell: bash
         run: |
-          # Ensure the symlinks are healthy for the scanner
+          # 1. Force Homebrew to link OpenSSL so the dylibs exist in /usr/local/opt.
+          # This ensures Nuitka's dependency scanner can physically find the files.
           brew link --force openssl@3
+
+          # 2. Inject search paths into GITHUB_ENV for Nuitka's internal compiler (Scons).
+          # Without these, Nuitka fails to resolve '_hashlib' dependencies on Intel 
+          # because macOS 15 system paths are restricted (SIP). Scons 'inherits' 
+          # these flags to correctly link OpenSSL during the final build stage.
           echo "LDFLAGS=-L/usr/local/opt/openssl@3/lib" >> $GITHUB_ENV
           echo "CPPFLAGS=-I/usr/local/opt/openssl@3/include" >> $GITHUB_ENV
 
