@@ -37,10 +37,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      # Use standard setup for everything EXCEPT macOS Intel
+      - name: Set up Python (Standard)
+        if: matrix.os != 'macos-15-intel'
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
+      # Use Homebrew Python for Intel to solve the OpenSSL path mismatch
+      - name: Set up Python (macOS Intel)
+        if: matrix.os == 'macos-15-intel'
+        run: |
+          brew update
+          brew install python@3.10 openssl@3
+          echo "/usr/local/opt/python@3.10/bin" >> $GITHUB_PATH
+          # Force link so 'python' command uses this version
+          brew link --overwrite python@3.10
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -110,13 +122,13 @@ jobs:
             mainwindow.py      
 
       - name: macOS Intel prerequisites (OpenSSL@3)
-        if: runner.os == 'macOS' && matrix.artifact_suffix == 'macos-x64'
+        if: matrix.os == 'macos-15-intel'
         shell: bash
         run: |
-          brew update
-          brew install openssl@3 || true
-          brew link --force --overwrite openssl@3 || true
-          ls -la /usr/local/opt/openssl@3/lib
+          # Ensure the symlinks are healthy for the scanner
+          brew link --force openssl@3
+          echo "LDFLAGS=-L/usr/local/opt/openssl@3/lib" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I/usr/local/opt/openssl@3/include" >> $GITHUB_ENV
 
       - name: Build (macOS, Nuitka + app icon)
         if: runner.os == 'macOS'
@@ -127,7 +139,7 @@ jobs:
             ICON_FLAG="--macos-app-icon=resource/openccpyo3gui.icns"
           fi
 
-          python -m nuitka \
+          python3 -m nuitka \
             --standalone \
             --enable-plugin=pyside6 \
             --include-package=opencc_pyo3 \
