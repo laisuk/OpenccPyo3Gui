@@ -40,8 +40,10 @@ at [Release](https://github.com/laisuk/OpenccPyo3Gui/releases) section.
   pip install PySide6
   ```
 - [opencc-pyo3](https://github.com/laisuk/opencc_pyo3): High performance PyO3 Python module for conversions between
-  Traditional and
-  Simplified Chinese.
+  Traditional and Simplified Chinese.
+  ```bash
+  pip install opencc-pyo3
+  ``` 
 
 ---
 
