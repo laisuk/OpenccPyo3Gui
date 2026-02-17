@@ -87,6 +87,22 @@ jobs:
         env:
           PDFIUM_PLAT: linux-x64
         run: |
+          # NOTE (Linux specific):
+          # We intentionally DO NOT use:
+          #   --include-package-data=opencc_pyo3:*.so
+          #
+          # On Linux, ".so" files can be BOTH:
+          #   - CPython extension modules
+          #   - Shared libraries (e.g. libpdfium.so)
+          #
+          # Nuitka already auto-detects Python extension modules correctly.
+          # Forcing "*.so" as package data causes a conflict:
+          #   "data file ... conflicts with extension ..."
+          #
+          # This problem does NOT occur on Windows (.dll) or macOS (.dylib),
+          # because those extensions are not treated as CPython extension modules.
+          #
+          # Therefore on Linux we let Nuitka handle .so detection automatically.
           python -m nuitka \
             --standalone \
             --enable-plugin=pyside6 \
