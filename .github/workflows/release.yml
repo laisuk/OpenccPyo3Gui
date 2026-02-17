@@ -83,7 +83,6 @@ jobs:
             --standalone \
             --enable-plugin=pyside6 \
             --include-package=opencc_pyo3 \
-            --include-package-data=opencc_pyo3:*.so \
             --output-filename=OpenccPyo3Gui \
             --lto=yes \
             --assume-yes-for-downloads \
@@ -109,6 +108,15 @@ jobs:
             --assume-yes-for-downloads `
             $iconFlag `
             mainwindow.py      
+
+      - name: macOS Intel prerequisites (OpenSSL@3)
+        if: runner.os == 'macOS' && matrix.artifact_suffix == 'macos-x64'
+        shell: bash
+        run: |
+          brew update
+          brew install openssl@3 || true
+          brew link --force --overwrite openssl@3 || true
+          ls -la /usr/local/opt/openssl@3/lib
 
       - name: Build (macOS, Nuitka + app icon)
         if: runner.os == 'macOS'
