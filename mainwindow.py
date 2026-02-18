@@ -896,8 +896,15 @@ class MainWindow(QMainWindow):
             selected_item = selected_items[0]
             file_path = selected_item.text()
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    contents = f.read()
+                if is_docx(file_path):
+                    contents = extract_docx_all_text(file_path)
+                elif is_odt(file_path):
+                    contents = extract_odt_all_text(file_path)
+                elif is_epub(file_path):
+                    contents = extract_epub_all_text(file_path)
+                else:
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        contents = f.read()
                 self.ui.statusbar.showMessage(f"File preview: {selected_items[0].text()}")
             except UnicodeDecodeError:
                 contents = "❌ Not a valid text file"  # Already initialized, but good to explicitly handle for clarity
