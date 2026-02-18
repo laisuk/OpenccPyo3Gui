@@ -78,7 +78,7 @@
 
     <!-- ARP icon / shortcuts icon (ensure this .ico exists in your .dist) -->
 <!--     <Icon Id="AppIcon.ico" SourceFile="$(var.SourceDir)\openccpyo3gui.ico" /> -->
-    <Icon Id="AppIcon.ico" SourceFile="installer\assets\openccpyo3gui.ico" />
+    <Icon Id="AppIcon.ico" SourceFile="resource\openccpyo3gui.ico" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
 
     <!-- Let user choose install directory -->

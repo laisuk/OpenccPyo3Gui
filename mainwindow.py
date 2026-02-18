@@ -771,8 +771,10 @@ class MainWindow(QMainWindow):
 
         # Collect file list from ListBox
         files = [
-            self.ui.listSource.item(i).text()
+            s
             for i in range(self.ui.listSource.count())
+            if (s := self.ui.listSource.item(i).text())
+               and Path(s).is_file()
         ]
 
         # Snapshot PDF-related and filename options

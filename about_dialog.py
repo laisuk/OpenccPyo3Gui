@@ -6,7 +6,6 @@ from typing import Optional
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QGuiApplication, QIcon, QPixmap
 from PySide6.QtWidgets import (
-    QApplication,
     QDialog,
     QDialogButtonBox,
     QFrame,
@@ -56,7 +55,8 @@ class AboutDialog(QDialog):
         icon_label.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         if icon is None:
-            icon = QApplication.windowIcon()
+            # icon = QApplication.windowIcon()
+            icon = self.windowIcon()
 
         pm = icon.pixmap(56, 56) if not icon.isNull() else QPixmap()
         if not pm.isNull():

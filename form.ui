@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>OpenccPyo3Gui</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/images/resource/openccpyo3gui.ico</normaloff>:/images/resource/openccpyo3gui.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
@@ -249,6 +253,9 @@
             <pointsize>10</pointsize>
            </font>
           </property>
+          <property name="toolTip">
+           <string>Convert punctuations</string>
+          </property>
           <property name="text">
            <string>Punctuations （标点）</string>
           </property>
@@ -282,7 +289,7 @@
       </property>
       <widget class="QWidget" name="tab_main">
        <attribute name="icon">
-        <iconset resource="../OpenccPurepyGui/resource.qrc">
+        <iconset resource="resource.qrc">
          <normaloff>:/images/resource/icons8-document-64.png</normaloff>:/images/resource/icons8-document-64.png</iconset>
        </attribute>
        <attribute name="title">
@@ -378,7 +385,7 @@
               <property name="minimumSize">
                <size>
                 <width>80</width>
-                <height>0</height>
+                <height>25</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -393,10 +400,7 @@
                </font>
               </property>
               <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="lineWidth">
-               <number>1</number>
+               <enum>QFrame::Shape::Box</enum>
               </property>
               <property name="text">
                <string>Source</string>
@@ -469,7 +473,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../OpenccPurepyGui/resource.qrc">
+               <iconset resource="resource.qrc">
                 <normaloff>:/images/resource/icons8-refresh-48.png</normaloff>:/images/resource/icons8-refresh-48.png</iconset>
               </property>
               <property name="iconSize">
@@ -535,7 +539,7 @@
               <property name="minimumSize">
                <size>
                 <width>80</width>
-                <height>0</height>
+                <height>25</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -550,7 +554,7 @@
                </font>
               </property>
               <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
+               <enum>QFrame::Shape::Box</enum>
               </property>
               <property name="text">
                <string>Destination</string>
@@ -623,7 +627,7 @@
       </widget>
       <widget class="QWidget" name="tab_batch">
        <attribute name="icon">
-        <iconset resource="../OpenccPurepyGui/resource.qrc">
+        <iconset resource="resource.qrc">
          <normaloff>:/images/resource/icons8-documents-64.png</normaloff>:/images/resource/icons8-documents-64.png</iconset>
        </attribute>
        <attribute name="title">
@@ -705,6 +709,9 @@
                 <bold>true</bold>
                </font>
               </property>
+              <property name="toolTip">
+               <string>Add file(s) to list box</string>
+              </property>
               <property name="text">
                <string>➕</string>
               </property>
@@ -717,6 +724,9 @@
                 <pointsize>10</pointsize>
                 <bold>true</bold>
                </font>
+              </property>
+              <property name="toolTip">
+               <string>Remove selected list box item(s)</string>
               </property>
               <property name="text">
                <string>➖</string>
@@ -731,6 +741,9 @@
                 <bold>true</bold>
                </font>
               </property>
+              <property name="toolTip">
+               <string>Clear all list box items</string>
+              </property>
               <property name="text">
                <string>AC</string>
               </property>
@@ -744,11 +757,14 @@
                 <bold>false</bold>
                </font>
               </property>
+              <property name="toolTip">
+               <string>Preview selected file as text</string>
+              </property>
               <property name="text">
                <string/>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="resource.qrc">
                 <normaloff>:/images/resource/preview.png</normaloff>:/images/resource/preview.png</iconset>
               </property>
               <property name="iconSize">
@@ -776,8 +792,11 @@
                 <pointsize>10</pointsize>
                </font>
               </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::Box</enum>
+              </property>
               <property name="text">
-               <string>Output:</string>
+               <string>Output</string>
               </property>
               <property name="margin">
                <number>1</number>
@@ -811,11 +830,14 @@
                 <bold>true</bold>
                </font>
               </property>
+              <property name="toolTip">
+               <string>Select output folder</string>
+              </property>
               <property name="text">
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../OpenccPurepyGui/resource.qrc">
+               <iconset resource="resource.qrc">
                 <normaloff>:/images/resource/icons8-folder-64.png</normaloff>:/images/resource/icons8-folder-64.png</iconset>
               </property>
               <property name="iconSize">
@@ -839,6 +861,9 @@
                 <pointsize>10</pointsize>
                 <bold>true</bold>
                </font>
+              </property>
+              <property name="toolTip">
+               <string>Cleac display contents</string>
               </property>
               <property name="text">
                <string>AC</string>
@@ -878,6 +903,9 @@
            <font>
             <pointsize>10</pointsize>
            </font>
+          </property>
+          <property name="toolTip">
+           <string>Open file to editor</string>
           </property>
           <property name="text">
            <string>Open File</string>
@@ -927,7 +955,7 @@
            <string>Process</string>
           </property>
           <property name="icon">
-           <iconset resource="../OpenccPurepyGui/resource.qrc">
+           <iconset resource="resource.qrc">
             <normaloff>:/images/resource/icons8-start-48.png</normaloff>:/images/resource/icons8-start-48.png</iconset>
           </property>
           <property name="iconSize">
@@ -957,6 +985,20 @@
         </item>
         <item>
          <widget class="QComboBox" name="cbSaveTarget">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Select target contents to save</string>
+          </property>
           <property name="currentIndex">
            <number>1</number>
           </property>
@@ -984,6 +1026,9 @@
            <font>
             <pointsize>10</pointsize>
            </font>
+          </property>
+          <property name="toolTip">
+           <string>Save target contents to file</string>
           </property>
           <property name="text">
            <string>Save As</string>
@@ -1059,7 +1104,7 @@
   </widget>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="../OpenccPurepyGui/resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/images/resource/exit.png</normaloff>:/images/resource/exit.png</iconset>
    </property>
    <property name="text">
@@ -1071,7 +1116,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="../OpenccPurepyGui/resource.qrc">
+    <iconset resource="resource.qrc">
      <normaloff>:/images/resource/information.png</normaloff>:/images/resource/information.png</iconset>
    </property>
    <property name="text">
@@ -1148,7 +1193,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_config"/>
   <buttongroup name="buttonGroup_region"/>
+  <buttongroup name="buttonGroup_config"/>
  </buttongroups>
 </ui>

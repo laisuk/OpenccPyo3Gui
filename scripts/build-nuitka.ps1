@@ -43,7 +43,6 @@ $common = @(
     "--enable-plugin=pyside6",
     "--include-package=opencc_pyo3",
     "--include-package-data=opencc_pyo3:*.dll",
-    "--include-package-data=opencc_pyo3:*.so",
     "--include-package-data=opencc_pyo3:*.dylib",
 
     "--msvc=latest",
