@@ -43,6 +43,10 @@ GlobalUnlock = kernel32.GlobalUnlock
 GlobalUnlock.argtypes = [wintypes.HGLOBAL]
 GlobalUnlock.restype = wintypes.BOOL
 
+GlobalFree = kernel32.GlobalFree
+GlobalFree.argtypes = [wintypes.HGLOBAL]
+GlobalFree.restype = wintypes.HGLOBAL  # returns NULL on success
+
 
 # Helper function to print the last error
 def print_last_error():
@@ -87,7 +91,7 @@ def set_clipboard_text(text):
         if not data:
             print("Failed to lock global memory")
             print_last_error()
-            kernel32.GlobalFree(handle)  # Free the allocated memory
+            GlobalFree(handle)  # Free the allocated memory
             return False
 
         try:
@@ -101,7 +105,7 @@ def set_clipboard_text(text):
         if not SetClipboardData(CF_UNICODETEXT, handle):
             print("Failed to set clipboard data")
             print_last_error()
-            kernel32.GlobalFree(handle)  # Free the allocated memory
+            GlobalFree(handle)  # Free the allocated memory
             return False
 
         # Do not free handle after SetClipboardData succeeds

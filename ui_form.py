@@ -411,7 +411,7 @@ class Ui_MainWindow(object):
         font7.setBold(False)
         self.btnPreview.setFont(font7)
         icon4 = QIcon()
-        icon4.addFile(u":/images/resource/visual.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":/images/resource/preview.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btnPreview.setIcon(icon4)
         self.btnPreview.setIconSize(QSize(16, 16))
 

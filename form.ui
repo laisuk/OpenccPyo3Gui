@@ -282,7 +282,7 @@
       </property>
       <widget class="QWidget" name="tab_main">
        <attribute name="icon">
-        <iconset resource="resource.qrc">
+        <iconset resource="../OpenccPurepyGui/resource.qrc">
          <normaloff>:/images/resource/icons8-document-64.png</normaloff>:/images/resource/icons8-document-64.png</iconset>
        </attribute>
        <attribute name="title">
@@ -469,7 +469,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="resource.qrc">
+               <iconset resource="../OpenccPurepyGui/resource.qrc">
                 <normaloff>:/images/resource/icons8-refresh-48.png</normaloff>:/images/resource/icons8-refresh-48.png</iconset>
               </property>
               <property name="iconSize">
@@ -623,7 +623,7 @@
       </widget>
       <widget class="QWidget" name="tab_batch">
        <attribute name="icon">
-        <iconset resource="resource.qrc">
+        <iconset resource="../OpenccPurepyGui/resource.qrc">
          <normaloff>:/images/resource/icons8-documents-64.png</normaloff>:/images/resource/icons8-documents-64.png</iconset>
        </attribute>
        <attribute name="title">
@@ -748,8 +748,8 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="resource.qrc">
-                <normaloff>:/images/resource/visual.png</normaloff>:/images/resource/visual.png</iconset>
+               <iconset>
+                <normaloff>:/images/resource/preview.png</normaloff>:/images/resource/preview.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -815,7 +815,7 @@
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="resource.qrc">
+               <iconset resource="../OpenccPurepyGui/resource.qrc">
                 <normaloff>:/images/resource/icons8-folder-64.png</normaloff>:/images/resource/icons8-folder-64.png</iconset>
               </property>
               <property name="iconSize">
@@ -927,7 +927,7 @@
            <string>Process</string>
           </property>
           <property name="icon">
-           <iconset resource="resource.qrc">
+           <iconset resource="../OpenccPurepyGui/resource.qrc">
             <normaloff>:/images/resource/icons8-start-48.png</normaloff>:/images/resource/icons8-start-48.png</iconset>
           </property>
           <property name="iconSize">
@@ -1059,7 +1059,7 @@
   </widget>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../OpenccPurepyGui/resource.qrc">
      <normaloff>:/images/resource/exit.png</normaloff>:/images/resource/exit.png</iconset>
    </property>
    <property name="text">
@@ -1071,7 +1071,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../OpenccPurepyGui/resource.qrc">
      <normaloff>:/images/resource/information.png</normaloff>:/images/resource/information.png</iconset>
    </property>
    <property name="text">
@@ -1148,7 +1148,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_region"/>
   <buttongroup name="buttonGroup_config"/>
+  <buttongroup name="buttonGroup_region"/>
  </buttongroups>
 </ui>

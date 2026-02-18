@@ -4,7 +4,7 @@ import platform
 import sys
 from typing import List
 
-from opencc_purepy import OpenCC
+from opencc_pyo3 import OpenCC
 
 # Platform clipboard backends
 if platform.system() == 'Windows':
