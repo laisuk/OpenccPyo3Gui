@@ -58,7 +58,7 @@ class AboutDialog(QDialog):
             # icon = QApplication.windowIcon()
             icon = self.windowIcon()
 
-        pm = icon.pixmap(56, 56) if not icon.isNull() else QPixmap()
+        pm = icon.pixmap(56, 56) if not icon.isNull() else QPixmap() # type: ignore
         if not pm.isNull():
             icon_label.setPixmap(pm)
         header.addWidget(icon_label, 0)
