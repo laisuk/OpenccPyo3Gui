@@ -54,11 +54,12 @@ class AboutDialog(QDialog):
         icon_label.setFixedSize(56, 56)
         icon_label.setAlignment(Qt.AlignmentFlag.AlignTop)
 
+        appIcon = QIcon()
         if icon is None:
             # icon = QApplication.windowIcon()
-            icon = self.windowIcon()
+            appIcon = self.windowIcon()
 
-        pm = icon.pixmap(56, 56) if not icon.isNull() else QPixmap() # type: ignore
+        pm = appIcon.pixmap(56, 56) if not appIcon.isNull() else QPixmap()
         if not pm.isNull():
             icon_label.setPixmap(pm)
         header.addWidget(icon_label, 0)

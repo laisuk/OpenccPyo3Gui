@@ -413,9 +413,9 @@ class MainWindow(QMainWindow):
         else:
             self.ui.lblSourceCode.setText("Non-zh (其它)")
 
-        filename = getattr(self.ui.tbSource, "content_filename", None)
+        filename = str(getattr(self.ui.tbSource, "content_filename", None))
         if filename:
-            base = os.path.basename(filename) # type: ignore
+            base = os.path.basename(filename)
             self.ui.lblFilename.setText(base)
             # self.statusBar().showMessage(f"File: {filename}")
 
