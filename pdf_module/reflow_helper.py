@@ -21,6 +21,7 @@ from pdf_module.punct_sets import (
     is_dialog_opener,
     is_dialog_closer,
     begins_with_dialog_opener,
+    has_unclosed_dialog_quote,
 
     is_bracket_opener,
     is_bracket_closer,
@@ -343,7 +344,7 @@ def is_heading_like(s: str) -> bool:
         return False
 
     # Unbalanced bracket lines are not headings
-    if has_unclosed_bracket(s):
+    if has_unclosed_bracket(s) or has_unclosed_dialog_quote(s):
         return False
 
     length = len(s)
@@ -853,14 +854,14 @@ def reflow_cjk_paragraphs_core(
                 continue
 
         # Final strong line punct ending check for current line text
-        if buffer and (not dialog_unclosed) and (not buffer_has_unclosed_bracket):
+        if buffer and (not dialog_unclosed) and ((not buffer_has_unclosed_bracket) or len(buffer) > 120):
             last = last_non_whitespace(stripped)
             if (last is not None) and is_strong_sentence_end(last):
                 buffer += stripped
                 append_seg(buffer)
                 buffer = ""
                 d_reset()
-                d_update(stripped)
+                # d_update(stripped)
                 continue
 
         # First line of a new paragraph
