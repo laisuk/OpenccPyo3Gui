@@ -19,8 +19,8 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ### Added
 
-- Initial release of `OpenccPyo3Gui` for `opencc-purepy`.
-- Pure Python OpenCC-compatible engine for Traditional and Simplified Chinese text conversion.
+- Initial release of `OpenccPyo3Gui` for `opencc-pyo3`.
+- High performance Python OpenCC-compatible engine for Traditional and Simplified Chinese text conversion.
 - Supported standard OpenCC configs:
     - `s2t`, `s2tw`, `s2twp`, `s2hk`, `t2s`, `tw2s`, `tw2sp`, `hk2s`, `jp2t`, `t2jp`
-- Support conversion of plain text, Office documents and Epub.
+- Support conversion of plain text, Office documents, Epub and PDF extracted text.
