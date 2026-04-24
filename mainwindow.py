@@ -46,6 +46,37 @@ def _read_text_file(filename: str) -> str:
             return f.read()
 
 
+def read_version_file() -> str:
+    """
+    Read VERSION file from project root.
+
+    Rules:
+    - Ignore empty lines
+    - Ignore lines starting with '#'
+    - First valid line (after strip) is the version
+    - Fallback to "0.0.0" if anything fails
+    """
+    try:
+        # Assume VERSION is next to your main script (adjust if needed)
+        root = Path(__file__).resolve().parent
+        version_file = root / "VERSION"
+
+        if not version_file.exists():
+            return "0.0.0"
+
+        with version_file.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                return line  # first valid version line
+
+    except Exception(FileNotFoundError, IOError):
+        pass
+
+    return "0.0.0"
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -371,7 +402,7 @@ class MainWindow(QMainWindow):
         dlg = AboutDialog(
             AboutInfo(
                 app_name="OpenccPyo3Gui",
-                version="1.0.0",
+                version=read_version_file(),
                 author="Laisuk",
                 year="2026",
                 description="Open Chinese Simplified / Traditional Converter\nPowered by Opencc-Pyo3 + Pdfium",
