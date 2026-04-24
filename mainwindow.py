@@ -57,8 +57,8 @@ def read_version_file() -> str:
     - Fallback to "0.0.0" if anything fails
     """
     try:
-        # Assume VERSION is next to your main script (adjust if needed)
-        root = Path(__file__).resolve().parent
+        # Assume VERSION is next to main script (adjust if needed)
+        root = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
         version_file = root / "VERSION"
 
         if not version_file.exists():
