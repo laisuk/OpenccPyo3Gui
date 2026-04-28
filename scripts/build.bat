@@ -40,6 +40,9 @@ if not exist "%ENTRY%" (
 if not exist "%ICON%" (
   echo WARN: Icon "%ICON%" not found. Continuing without a custom icon.
 )
+if not exist "VERSION" (
+  echo WARN: VERSION file not found. About dialog will fall back to default version.
+)
 
 :: Clean previous builds
 if "%CLEAN%"=="1" (
@@ -49,6 +52,10 @@ if "%CLEAN%"=="1" (
 
 :: Common Nuitka args
 set "COMMON=--enable-plugin=pyside6 --include-package=opencc_purepy --include-data-dir=opencc_purepy/dicts=opencc_purepy/dicts --msvc=latest --output-filename=%OUTPUTNAME%"
+
+if exist "VERSION" (
+  set "COMMON=!COMMON! --include-data-files=VERSION=VERSION"
+)
 
 if exist "%ICON%" (
   set "COMMON=!COMMON! --windows-icon-from-ico=%ICON%"

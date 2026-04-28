@@ -23,6 +23,13 @@ if (-not (Test-Path $Icon))
     Write-Warning "Icon '$Icon' not found. The build will continue without a custom icon."
 }
 
+$VersionFile = "VERSION"
+
+if (-not (Test-Path $VersionFile))
+{
+    Write-Warning "VERSION file not found. About dialog will fall back to default version."
+}
+
 # Optional clean
 if ($Clean)
 {
@@ -48,6 +55,12 @@ $common = @(
     "--msvc=latest",
     "--output-filename=$OutputName"
 )
+
+if (Test-Path $VersionFile)
+{
+    $common += @("--include-data-files=$VersionFile=VERSION")
+}
+
 <#
 
 # Bundle PDFium native if present

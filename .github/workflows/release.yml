@@ -20,6 +20,10 @@ jobs:
             artifact_suffix: linux-x64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-linux-x64.tar.gz
 
+          - os: ubuntu-24.04-arm
+            artifact_suffix: linux-arm64
+            archive_name: OpenccPyo3Gui-${{ github.ref_name }}-linux-arm64.tar.gz
+
           - os: windows-latest
             artifact_suffix: win-x64
             archive_name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64.zip
@@ -85,7 +89,7 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         env:
-          PDFIUM_PLAT: linux-x64
+          PDFIUM_PLAT: ${{ matrix.os == 'ubuntu-24.04-arm' && 'linux-arm64' || 'linux-x64' }}
         run: |
           # NOTE (Linux specific):
           # We intentionally DO NOT use:

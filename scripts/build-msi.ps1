@@ -6,7 +6,7 @@ param(
     [string]$DistDir = "mainwindow.dist",
 
     # MSI metadata (MSI requires x.y.z)
-    [string]$Ver = "1.0.0",
+    [string]$Ver = "1.1.0",
 
     # For filename only
     [string]$Arch = "win-x64",
