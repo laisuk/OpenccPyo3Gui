@@ -7,11 +7,11 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
-## [1.1.0] - 2025-09-22
+## [1.1.0] - 2026-04-29
 
-## Added
+## Changed
 
-- Implement st_punctuations and ts_punctuations, dropped manual convert punctuations
+- Update `opencc-pyo3` to v0.8.12
 
 ---
 
