@@ -111,6 +111,7 @@ jobs:
             --standalone \
             --enable-plugin=pyside6 \
             --include-package=opencc_pyo3 \
+            --include-data-files=VERSION=VERSION \
             --output-filename=OpenccPyo3Gui \
             --lto=yes \
             --assume-yes-for-downloads \
@@ -130,6 +131,7 @@ jobs:
             --enable-plugin=pyside6 `
             --include-package=opencc_pyo3 `
             --include-package-data=opencc_pyo3:*.dll `
+            --include-data-files=VERSION=VERSION `
             --output-filename=OpenccPyo3Gui `
             --windows-console-mode=disable `
             --lto=yes `
@@ -166,6 +168,7 @@ jobs:
             --enable-plugin=pyside6 \
             --include-package=opencc_pyo3 \
             --include-package-data=opencc_pyo3:*.dylib \
+            --include-data-files=VERSION=VERSION \
             --output-filename=OpenccPyo3Gui \
             --lto=yes \
             --assume-yes-for-downloads \
