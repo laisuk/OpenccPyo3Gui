@@ -58,7 +58,8 @@ def read_version_file() -> str:
     """
     try:
         # PyInstaller support
-        root = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
+        base_path = getattr(sys, "_MEIPASS", None)
+        root = Path(str(base_path)) if base_path else Path(__file__).resolve().parent
         version_file = root / "VERSION"
 
         if not version_file.is_file():
