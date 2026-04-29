@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 def _detect_platform_folder() -> str:
-    is_64bit = sys.maxsize > 2**32
+    is_64bit = sys.maxsize > 2 ** 32
 
     if sys.platform.startswith(("win32", "cygwin")):
         arch = "x64" if is_64bit else "x86"
@@ -46,8 +46,8 @@ def _module_dir() -> Path:
     In all other cases (including Nuitka), ``__file__`` remains valid.
     """
     # PyInstaller
-    meipass = str(getattr(sys, "_MEIPASS", None))
-    if getattr(sys, "frozen", False) and meipass:
+    meipass = getattr(sys, "_MEIPASS", None)
+    if getattr(sys, "frozen", False) and isinstance(meipass, str):
         return Path(meipass) / "opencc_pyo3"
 
     # Nuitka and normal execution

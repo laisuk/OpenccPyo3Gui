@@ -59,7 +59,7 @@ def read_version_file() -> str:
     try:
         # PyInstaller support
         base_path = getattr(sys, "_MEIPASS", None)
-        root = Path(str(base_path)) if base_path else Path(__file__).resolve().parent
+        root = Path(base_path) if isinstance(base_path, str) else Path(__file__).resolve().parent
         version_file = root / "VERSION"
 
         if not version_file.is_file():
@@ -444,8 +444,8 @@ class MainWindow(QMainWindow):
         else:
             self.ui.lblSourceCode.setText("Non-zh (其它)")
 
-        filename = str(getattr(self.ui.tbSource, "content_filename", None))
-        if filename:
+        filename = getattr(self.ui.tbSource, "content_filename", None)
+        if isinstance(filename, str):
             base = os.path.basename(filename)
             self.ui.lblFilename.setText(base)
             # self.statusBar().showMessage(f"File: {filename}")
