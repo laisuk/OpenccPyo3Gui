@@ -1098,6 +1098,7 @@
   <widget class="QStatusBar" name="statusbar">
    <property name="font">
     <font>
+     <family>Noto Sans SC</family>
      <pointsize>10</pointsize>
     </font>
    </property>

@@ -574,7 +574,10 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
-        self.statusbar.setFont(font2)
+        font9 = QFont()
+        font9.setFamilies([u"Noto Sans SC"])
+        font9.setPointSize(10)
+        self.statusbar.setFont(font9)
         MainWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
