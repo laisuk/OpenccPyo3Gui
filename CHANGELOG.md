@@ -7,6 +7,15 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
+## [1.2.0] - 2026-05-25
+
+## Changed
+
+- Update `opencc-pyo3` to v0.9.0
+
+---
+
+
 ## [1.1.0] - 2026-04-29
 
 ## Changed
