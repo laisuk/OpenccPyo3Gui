@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>1005</width>
     <height>708</height>
    </rect>
   </property>
@@ -113,6 +113,11 @@
         </item>
         <item>
          <property name="text">
+          <string>s2hkp (简 -&gt; 繁/港/惯)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>t2s (繁 -&gt; 简)</string>
          </property>
         </item>
@@ -129,6 +134,11 @@
         <item>
          <property name="text">
           <string>t2hk (繁 -&gt; 繁/港)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>t2hkp (繁 -&gt; 繁/港/惯)</string>
          </property>
         </item>
         <item>
@@ -158,7 +168,17 @@
         </item>
         <item>
          <property name="text">
+          <string>hk2sp (繁/港 -&gt; 简/惯)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>hk2t (繁/港 -&gt; 繁)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>hk2tp (繁/港 -&gt; 繁/惯)</string>
          </property>
         </item>
         <item>
@@ -236,13 +256,16 @@
        <layout class="QHBoxLayout" name="horizontalLayout_idioms">
         <item>
          <widget class="QCheckBox" name="cbZhTw">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="font">
            <font>
             <pointsize>10</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>ZH/TW Idioms （惯用语）</string>
+           <string>Regional Terms （地区用语）</string>
           </property>
          </widget>
         </item>
@@ -314,9 +337,8 @@
            <widget class="TextEditWidget" name="tbSource">
             <property name="font">
              <font>
-              <family>Noto Sans SC</family>
+              <family>Microsoft YaHei</family>
               <pointsize>12</pointsize>
-              <bold>false</bold>
              </font>
             </property>
             <property name="toolTipDuration">
@@ -340,9 +362,8 @@
            <widget class="QPlainTextEdit" name="tbDestination">
             <property name="font">
              <font>
-              <family>Noto Sans SC</family>
+              <family>Microsoft YaHei</family>
               <pointsize>12</pointsize>
-              <bold>false</bold>
              </font>
             </property>
             <property name="acceptDrops">
@@ -1064,8 +1085,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
-     <height>22</height>
+     <width>1005</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1194,7 +1215,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_region"/>
   <buttongroup name="buttonGroup_config"/>
+  <buttongroup name="buttonGroup_region"/>
  </buttongroups>
 </ui>
