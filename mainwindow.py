@@ -9,9 +9,9 @@ from pathlib import Path
 from typing import Optional, Callable
 
 import PySide6
-from PySide6.QtCore import Qt, Slot, QThread, QEvent
-from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu
+from PySide6.QtCore import Qt, Slot, QThread, QEvent, QSettings
+from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QActionGroup
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu, QFontDialog
 
 from workers.batch_worker import BatchWorker
 from opencc_pyo3 import OpenCC
@@ -85,7 +85,36 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self._current_text_encoding = "utf-8"
+        self._current_text_encoding = "utf-8-sig"
+
+        settings = QSettings()
+
+        # Editor font
+        font_string = settings.value("editor/font", "", type=str)
+        if isinstance(font_string, str) and font_string:
+            font = QFont()
+            if font.fromString(font_string):
+                self.ui.tbSource.setFont(font)
+                self.ui.tbDestination.setFont(font)
+
+        # General settings
+        self.ui.actionConvertFilename.setChecked(
+            bool(settings.value("convertFilename", False, type=bool))
+        )
+
+        # PDF settings
+        self.ui.actionAddPdfPageHeader.setChecked(
+            bool(settings.value("pdf/addPageHeader", False, type=bool))
+        )
+        self.ui.actionCompactPdfText.setChecked(
+            bool(settings.value("pdf/compactExtractedText", False, type=bool))
+        )
+        self.ui.actionAutoReflow.setChecked(
+            bool(settings.value("pdf/autoReflowText", True, type=bool))
+        )
+        self.ui.actionUsePdfTextExtractWorker.setChecked(
+            bool(settings.value("pdf/useTextExtractWorker", True, type=bool))
+        )
 
         self.ui.lblFilename.installEventFilter(self)
         self.ui.lblFilename.setToolTip(
@@ -113,6 +142,32 @@ class MainWindow(QMainWindow):
         # self._cancel_pdf_button.clicked.connect(self.on_pdf_cancel_clicked)  # type: ignore
         self.statusBar().addPermanentWidget(self._cancel_button)  # type: ignore
 
+        self.ui.actionConvertFilename.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "convertFilename", checked
+            )
+        )
+        self.ui.actionAddPdfPageHeader.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "pdf/addPageHeader", checked
+            )
+        )
+        self.ui.actionCompactPdfText.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "pdf/compactExtractedText", checked
+            )
+        )
+        self.ui.actionAutoReflow.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "pdf/autoReflowText", checked
+            )
+        )
+        self.ui.actionUsePdfTextExtractWorker.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "pdf/useTextExtractWorker", checked
+            )
+        )
+
         self.ui.tabWidget.setCurrentIndex(0)
         self.ui.btnCopy.clicked.connect(self.btn_copy_click)
         self.ui.btnPaste.clicked.connect(self.btn_paste_click)
@@ -121,6 +176,8 @@ class MainWindow(QMainWindow):
         self.ui.btnProcess.clicked.connect(self.btn_process_click)
         self.ui.btnExit.clicked.connect(btn_exit_click)
         self.ui.btnReflow.clicked.connect(self.reflow_cjk_paragraphs)
+        self.ui.btnNormCompat.clicked.connect(self.btn_normCompat_clicked)
+        self.ui.btnDeTofu.clicked.connect(self.btn_deTofu_clicked)
         self.ui.btnClearTbSource.clicked.connect(self.btn_clear_tb_source_clicked)
         self.ui.btnClearTbDestination.clicked.connect(self.btn_clear_tb_destination_clicked)
         self.ui.tbSource.textChanged.connect(self.update_char_count)
@@ -137,6 +194,7 @@ class MainWindow(QMainWindow):
         self.ui.btnOutDir.clicked.connect(self.btn_out_directory_clicked)
         self.ui.cbManual.activated.connect(self.cb_manual_activated)
         self.ui.actionAbout.triggered.connect(self.action_about_triggered)
+        self.ui.actionSelectEditorFont.triggered.connect(self.action_select_editor_font_triggered)
         self.ui.actionExit.triggered.connect(btn_exit_click)
         self.ui.tbSource.fileDropped.connect(self._on_tb_source_file_dropped)
         self.ui.tbSource.pdfDropped.connect(self._on_tb_source_pdf_dropped)
@@ -393,6 +451,22 @@ class MainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Open Error", f"Failed to open/parse file:\n{e}")
 
+    def action_select_editor_font_triggered(self) -> None:
+        ok, font = QFontDialog.getFont(
+            self.ui.tbSource.font(),
+            self,
+            self.tr("Select Editor Font"),
+        )
+
+        if not ok:
+            return
+
+        self.ui.tbSource.setFont(font)
+        self.ui.tbDestination.setFont(font)
+
+        settings = QSettings()
+        settings.setValue("editor/font", font.toString())
+
     def action_about_triggered(self):
         # QMessageBox.about(self, "About", "OpenccPyo3Gui version 1.0.0 (c) 2025 Laisuk")
         self.show_about()
@@ -410,8 +484,8 @@ class MainWindow(QMainWindow):
         dlg = AboutDialog(
             AboutInfo(
                 app_name="OpenccPyo3Gui",
-                version=read_version_file(),
-                author="Laisuk",
+                version=QApplication.applicationVersion(),
+                author=QApplication.organizationName(),
                 year="2026",
                 description="Open Chinese Simplified / Traditional Converter\nPowered by Opencc-Pyo3 + Pdfium",
                 website_url="https://github.com/laisuk/OpenccPyo3Gui",
@@ -593,6 +667,58 @@ class MainWindow(QMainWindow):
 
         self.statusBar().showMessage("Reflow complete (CJK-aware)")
 
+    def btn_normCompat_clicked(self) -> None:
+        edit = self.ui.tbSource
+        src = edit.toPlainText()
+
+        if not src.strip():
+            self.statusBar().showMessage(
+                "Source text is empty. Nothing to normalize."
+            )
+            return
+
+        result = self.converter.normalize_compat_extended(src)
+
+        if result == src:
+            self.statusBar().showMessage(
+                "Normalization completed. No changes were needed."
+            )
+            return
+
+        cursor = QTextCursor(edit.document())
+        cursor.beginEditBlock()
+        cursor.select(QTextCursor.SelectionType.Document)
+        cursor.insertText(result)
+        cursor.endEditBlock()
+
+        self.statusBar().showMessage("Normalization completed.")
+
+    def btn_deTofu_clicked(self) -> None:
+        edit = self.ui.tbDestination
+        src = edit.toPlainText()
+
+        if not src.strip():
+            self.statusBar().showMessage(
+                "Destination text is empty. Nothing to fallback."
+            )
+            return
+
+        result = self.converter.detofu(src)
+
+        if result == src:
+            self.statusBar().showMessage(
+                "DeTofu fallback completed. No changes were needed."
+            )
+            return
+
+        cursor = QTextCursor(edit.document())
+        cursor.beginEditBlock()
+        cursor.select(QTextCursor.SelectionType.Document)
+        cursor.insertText(result)
+        cursor.endEditBlock()
+
+        self.statusBar().showMessage("DeTofu fallback completed.")
+
     def std_select(self):
         # self.ui.cbZhTw.setCheckState(Qt.CheckState.Unchecked)
         self.ui.cbZhTw.setEnabled(False)
@@ -692,7 +818,7 @@ class MainWindow(QMainWindow):
             # =========================================================
             # TXT fallback
             # =========================================================
-            self._current_text_encoding = "utf-8"
+            self._current_text_encoding = "utf-8-sig"
             contents = _read_text_file(filename)
             self._load_text_to_editor(filename, contents)
 
@@ -827,7 +953,7 @@ class MainWindow(QMainWindow):
         add_header = self.ui.actionAddPdfPageHeader.isChecked()
         auto_reflow = self.ui.actionAutoReflow.isChecked()
         compact = self.ui.actionCompactPdfText.isChecked()
-        convert_filename = self.ui.actionConvert_filename.isChecked()
+        convert_filename = self.ui.actionConvertFilename.isChecked()
 
         self.ui.tbPreview.clear()
         self.ui.statusbar.showMessage("Starting batch conversion...")
@@ -1038,12 +1164,18 @@ class MainWindow(QMainWindow):
             ("UTF-16 BE", "utf-16be"),
         )
 
+        group = QActionGroup(menu)
+        group.setExclusive(True)
+
         for label, encoding in encodings:
             action = menu.addAction(label)
             assert action is not None
 
             action.setCheckable(True)
             action.setChecked(encoding == self._current_text_encoding)
+
+            group.addAction(action)
+
             action.triggered.connect(
                 lambda _checked=False, enc=encoding:
                 self._reload_current_text_file(enc)
@@ -1087,6 +1219,9 @@ def btn_exit_click():
 
 if __name__ == "__main__":
     app = QApplication()
+    app.setOrganizationName("Laisuk")
+    app.setApplicationName("OpenccPyo3Gui")
+    app.setApplicationVersion(read_version_file())
     # app.setStyle("WindowsVista")
     widget = MainWindow()
     widget.show()
