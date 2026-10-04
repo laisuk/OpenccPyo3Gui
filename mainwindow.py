@@ -29,6 +29,7 @@ from openxml_module.epub_helper import (
     is_epub,
     extract_epub_all_text,
 )
+from helpers.cjk_encoding_detector import detect_cjk_encoding
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -37,13 +38,13 @@ from openxml_module.epub_helper import (
 from ui_form import Ui_MainWindow
 
 
-def _read_text_file(filename: str) -> str:
-    try:
-        with open(filename, "r", encoding="utf-8-sig") as f:
-            return f.read()
-    except UnicodeDecodeError:
-        with open(filename, "r", encoding="utf-8", errors="replace") as f:
-            return f.read()
+# def _read_text_file(filename: str) -> str:
+#     try:
+#         with open(filename, "r", encoding="utf-8-sig") as f:
+#             return f.read()
+#     except UnicodeDecodeError:
+#         with open(filename, "r", encoding="utf-8", errors="replace") as f:
+#             return f.read()
 
 
 def read_version_file() -> str:
@@ -84,6 +85,7 @@ class MainWindow(QMainWindow):
         self._batch_thread = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.resize(1000, 700)
 
         self._current_text_encoding = "utf-8-sig"
 
@@ -545,7 +547,7 @@ class MainWindow(QMainWindow):
         self._cancel_button.show()  # type: ignore
         self.ui.btnReflow.setEnabled(False)
 
-        # Track last progress for nicer "cancelled at page X/Y" message
+        # Track last progress for nicer "canceled at page X/Y" message
         last_page: int = 0
         total_pages: int = 0
 
@@ -818,8 +820,20 @@ class MainWindow(QMainWindow):
             # =========================================================
             # TXT fallback
             # =========================================================
-            self._current_text_encoding = "utf-8-sig"
-            contents = _read_text_file(filename)
+            with open(filename, "rb") as f:
+                data = f.read()
+
+            detected = detect_cjk_encoding(data)
+            encoding = detected.encoding or "utf-8-sig"
+
+            if encoding == "utf-8":
+                encoding = "utf-8-sig"
+            self._current_text_encoding = encoding
+
+            contents = data.decode(
+                self._current_text_encoding,
+                errors="replace",
+            )
             self._load_text_to_editor(filename, contents)
 
         except (OSError, UnicodeError, ValueError) as e:
@@ -1158,7 +1172,7 @@ class MainWindow(QMainWindow):
         encodings = (
             ("UTF-8", "utf-8-sig"),
             ("GB18030 / GBK", "gb18030"),
-            ("Big5 / CP950", "cp950"),
+            ("Big5 / CP950", "big5"),
             ("Big5-HKSCS", "big5hkscs"),
             ("UTF-16 LE", "utf-16le"),
             ("UTF-16 BE", "utf-16be"),
