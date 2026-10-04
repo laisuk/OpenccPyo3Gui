@@ -60,7 +60,11 @@ def read_version_file() -> str:
     try:
         # PyInstaller support
         base_path = getattr(sys, "_MEIPASS", None)
-        root = Path(base_path) if isinstance(base_path, str) else Path(__file__).resolve().parent
+        root = (
+            Path(base_path)
+            if isinstance(base_path, str)
+            else Path(__file__).resolve().parent
+        )
         version_file = root / "VERSION"
 
         if not version_file.is_file():
@@ -72,7 +76,7 @@ def read_version_file() -> str:
                 if line and not line.startswith("#"):
                     return line
 
-    except (OSError, Exception):
+    except (OSError, UnicodeError):
         pass
 
     return "0.0.0"
