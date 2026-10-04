@@ -78,6 +78,16 @@ def read_version_file() -> str:
     return "0.0.0"
 
 
+def _detect_text_encoding(data: bytes) -> str:
+    detected = detect_cjk_encoding(data)
+    encoding = detected.encoding or "utf-8-sig"
+
+    if encoding == "utf-8":
+        encoding = "utf-8-sig"
+
+    return encoding
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -823,12 +833,7 @@ class MainWindow(QMainWindow):
             with open(filename, "rb") as f:
                 data = f.read()
 
-            detected = detect_cjk_encoding(data)
-            encoding = detected.encoding or "utf-8-sig"
-
-            if encoding == "utf-8":
-                encoding = "utf-8-sig"
-            self._current_text_encoding = encoding
+            self._current_text_encoding = _detect_text_encoding(data)
 
             contents = data.decode(
                 self._current_text_encoding,
@@ -1169,6 +1174,13 @@ class MainWindow(QMainWindow):
 
         menu = QMenu(self)
 
+        # Auto-detect is an action, not an encoding state.
+        auto_action = menu.addAction("Auto Detect")
+        assert auto_action is not None
+        auto_action.triggered.connect(self._auto_detect_current_text_file)
+
+        menu.addSeparator()
+
         encodings = (
             ("UTF-8", "utf-8-sig"),
             ("GB18030 / GBK", "gb18030"),
@@ -1201,6 +1213,39 @@ class MainWindow(QMainWindow):
             self.ui.lblFilename.rect().bottomLeft()
         )
         menu.popup(pos)
+
+    def _auto_detect_current_text_file(self) -> None:
+        filename = self.ui.tbSource.content_filename
+        if not filename:
+            return
+
+        try:
+            with open(filename, "rb") as f:
+                data = f.read()
+
+            encoding = _detect_text_encoding(data)
+            self._current_text_encoding = encoding
+
+            contents = data.decode(
+                encoding,
+                errors="replace",
+            )
+
+            self._load_text_to_editor(filename, contents)
+
+            if encoding is not None:
+                self.statusBar().showMessage(
+                    f"Detected text encoding: {encoding}"
+                )
+            else:
+                self.statusBar().showMessage(
+                    "Text encoding could not be detected; using UTF-8."
+                )
+
+        except OSError as ex:
+            self.statusBar().showMessage(
+                f"Failed to reload file: {ex}"
+            )
 
     def _reload_current_text_file(self, encoding: str) -> None:
         filename = self.ui.tbSource.content_filename
