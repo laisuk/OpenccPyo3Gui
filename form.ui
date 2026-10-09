@@ -377,15 +377,6 @@
              </property>
              <item>
               <widget class="TextEditWidget" name="tbSource">
-               <property name="toolTip">
-                <string />
-               </property>
-               <property name="toolTipDuration">
-                <number>-1</number>
-               </property>
-               <property name="midLineWidth">
-                <number>0</number>
-               </property>
                <property name="font">
                 <font>
                  <family>Microsoft YaHei</family>
@@ -393,10 +384,19 @@
                  <bold>false</bold>
                 </font>
                </property>
+               <property name="toolTip">
+                <string/>
+               </property>
+               <property name="toolTipDuration">
+                <number>-1</number>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::Shape::NoFrame</enum>
                </property>
                <property name="lineWidth">
+                <number>0</number>
+               </property>
+               <property name="midLineWidth">
                 <number>0</number>
                </property>
                <property name="verticalScrollBarPolicy">
@@ -450,9 +450,6 @@
                  </property>
                  <item>
                   <widget class="QLabel" name="lblSource">
-                   <property name="text">
-                    <string>Source</string>
-                   </property>
                    <property name="font">
                     <font>
                      <pointsize>10</pointsize>
@@ -468,6 +465,9 @@
                    <property name="lineWidth">
                     <number>1</number>
                    </property>
+                   <property name="text">
+                    <string>Source</string>
+                   </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
                    </property>
@@ -478,21 +478,26 @@
                  </item>
                  <item>
                   <widget class="QLabel" name="lblSourceCode">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="text">
-                    <string />
-                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
                      <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="text">
+                    <string/>
                    </property>
                    <property name="margin">
                     <number>1</number>
@@ -514,9 +519,6 @@
                  </item>
                  <item>
                   <widget class="QLabel" name="lblCharCount">
-                   <property name="text">
-                    <string />
-                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -528,6 +530,9 @@
                      <pointsize>10</pointsize>
                      <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="text">
+                    <string/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -561,16 +566,11 @@
                  </property>
                  <item>
                   <widget class="QPushButton" name="btnReflow">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="toolTip">
-                    <string>Reflow PDF extracted CJK text</string>
-                   </property>
-                   <property name="text">
-                    <string />
-                   </property>
-                   <property name="icon">
-                    <iconset resource="resource.qrc">
-                     <normaloff>:/images/resource/icons8-refresh-48.png</normaloff>:/images/resource/icons8-refresh-48.png</iconset>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
                    </property>
                    <property name="maximumSize">
                     <size>
@@ -583,6 +583,16 @@
                      <pointsize>10</pointsize>
                      <bold>true</bold>
                     </font>
+                   </property>
+                   <property name="toolTip">
+                    <string>Reflow PDF extracted CJK text</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resource.qrc">
+                     <normaloff>:/images/resource/icons8-refresh-48.png</normaloff>:/images/resource/icons8-refresh-48.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -594,12 +604,11 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="btnNormCompat">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="toolTip">
-                    <string>Normalize CJK compatibility ideographs and Unicode compatibility characters</string>
-                   </property>
-                   <property name="text">
-                    <string>≡</string>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
                    </property>
                    <property name="maximumSize">
                     <size>
@@ -612,6 +621,12 @@
                      <pointsize>10</pointsize>
                      <bold>true</bold>
                     </font>
+                   </property>
+                   <property name="toolTip">
+                    <string>Normalize CJK compatibility ideographs and Unicode compatibility characters</string>
+                   </property>
+                   <property name="text">
+                    <string>≡</string>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -636,12 +651,11 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="btnClearTbSource">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="toolTip">
-                    <string>Clear source box contents</string>
-                   </property>
-                   <property name="text">
-                    <string>AC</string>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
                    </property>
                    <property name="maximumSize">
                     <size>
@@ -655,25 +669,36 @@
                      <bold>true</bold>
                     </font>
                    </property>
+                   <property name="toolTip">
+                    <string>Clear source box contents</string>
+                   </property>
+                   <property name="text">
+                    <string>AC</string>
+                   </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="btnPaste">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="text">
-                    <string>Paste</string>
-                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>10</pointsize>
                      <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="text">
+                    <string>Paste</string>
                    </property>
                   </widget>
                  </item>
@@ -713,18 +738,6 @@
              </property>
              <item>
               <widget class="QPlainTextEdit" name="tbDestination">
-               <property name="acceptDrops">
-                <bool>false</bool>
-               </property>
-               <property name="midLineWidth">
-                <number>0</number>
-               </property>
-               <property name="undoRedoEnabled">
-                <bool>false</bool>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
                <property name="font">
                 <font>
                  <family>Microsoft YaHei</family>
@@ -732,14 +745,26 @@
                  <bold>false</bold>
                 </font>
                </property>
+               <property name="acceptDrops">
+                <bool>false</bool>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::Shape::NoFrame</enum>
                </property>
                <property name="lineWidth">
                 <number>0</number>
                </property>
+               <property name="midLineWidth">
+                <number>0</number>
+               </property>
                <property name="verticalScrollBarPolicy">
                 <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+               </property>
+               <property name="undoRedoEnabled">
+                <bool>false</bool>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -789,9 +814,6 @@
                  </property>
                  <item>
                   <widget class="QLabel" name="lblDestination">
-                   <property name="text">
-                    <string>Destination</string>
-                   </property>
                    <property name="font">
                     <font>
                      <pointsize>10</pointsize>
@@ -807,6 +829,9 @@
                    <property name="lineWidth">
                     <number>1</number>
                    </property>
+                   <property name="text">
+                    <string>Destination</string>
+                   </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
                    </property>
@@ -820,21 +845,26 @@
                  </item>
                  <item>
                   <widget class="QLabel" name="lblDestinationCode">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="text">
-                    <string />
-                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>12</pointsize>
                      <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="text">
+                    <string/>
                    </property>
                    <property name="margin">
                     <number>1</number>
@@ -875,12 +905,11 @@
                  </property>
                  <item>
                   <widget class="QPushButton" name="btnDeTofu">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="toolTip">
-                    <string>Fallback unsupported CJK characters to displayable alternatives to avoid tofu (□)</string>
-                   </property>
-                   <property name="text">
-                    <string>豆</string>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
                    </property>
                    <property name="maximumSize">
                     <size>
@@ -893,6 +922,12 @@
                      <pointsize>10</pointsize>
                      <bold>true</bold>
                     </font>
+                   </property>
+                   <property name="toolTip">
+                    <string>Fallback unsupported CJK characters to displayable alternatives to avoid tofu (□)</string>
+                   </property>
+                   <property name="text">
+                    <string>豆</string>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -917,12 +952,11 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="btnClearTbDestination">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="toolTip">
-                    <string>Clear destination contents</string>
-                   </property>
-                   <property name="text">
-                    <string>AC</string>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
                    </property>
                    <property name="maximumSize">
                     <size>
@@ -936,25 +970,36 @@
                      <bold>true</bold>
                     </font>
                    </property>
+                   <property name="toolTip">
+                    <string>Clear destination contents</string>
+                   </property>
+                   <property name="text">
+                    <string>AC</string>
+                   </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="btnCopy">
-                   <property name="minimumSize"><size><width>0</width><height>28</height></size></property>
-                   <property name="text">
-                    <string>Copy</string>
-                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>10</pointsize>
                      <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="text">
+                    <string>Copy</string>
                    </property>
                   </widget>
                  </item>
@@ -1448,6 +1493,7 @@
      <string>Settings</string>
     </property>
     <addaction name="actionConvertFilename"/>
+    <addaction name="actionAutoDetectCjkEncoding"/>
     <addaction name="separator"/>
     <addaction name="actionAddPdfPageHeader"/>
     <addaction name="actionCompactPdfText"/>
@@ -1545,6 +1591,11 @@
   <action name="actionSelectEditorFont">
    <property name="text">
     <string>Select Editor Font ...</string>
+   </property>
+  </action>
+  <action name="actionAutoDetectCjkEncoding">
+   <property name="text">
+    <string>Auto-Detect CJK Text Encoding (Batch)</string>
    </property>
   </action>
  </widget>

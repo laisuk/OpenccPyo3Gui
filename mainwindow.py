@@ -89,6 +89,9 @@ def _detect_text_encoding(data: bytes) -> str:
     if encoding == "utf-8":
         encoding = "utf-8-sig"
 
+    if encoding == "shift_jis":
+        return "cp932"
+
     return encoding
 
 
@@ -116,6 +119,9 @@ class MainWindow(QMainWindow):
         # General settings
         self.ui.actionConvertFilename.setChecked(
             bool(settings.value("convertFilename", False, type=bool))
+        )
+        self.ui.actionAutoDetectCjkEncoding.setChecked(
+            bool(settings.value("autoDetectCjkEncoding", False, type=bool))
         )
 
         # PDF settings
@@ -161,6 +167,11 @@ class MainWindow(QMainWindow):
         self.ui.actionConvertFilename.toggled.connect(
             lambda checked: QSettings().setValue(
                 "convertFilename", checked
+            )
+        )
+        self.ui.actionAutoDetectCjkEncoding.toggled.connect(
+            lambda checked: QSettings().setValue(
+                "autoDetectCjkEncoding", checked
             )
         )
         self.ui.actionAddPdfPageHeader.toggled.connect(
