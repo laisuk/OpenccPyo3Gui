@@ -67,6 +67,7 @@ class Ui_MainWindow(object):
         self.actionSelectEditorFont.setObjectName(u"actionSelectEditorFont")
         self.actionAutoDetectCjkEncoding = QAction(MainWindow)
         self.actionAutoDetectCjkEncoding.setObjectName(u"actionAutoDetectCjkEncoding")
+        self.actionAutoDetectCjkEncoding.setCheckable(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_3 = QVBoxLayout(self.centralwidget)

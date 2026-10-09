@@ -30,6 +30,7 @@ from openxml_module.epub_helper import (
     extract_epub_all_text,
 )
 from helpers.cjk_encoding_detector import detect_cjk_encoding
+from helpers.plain_text_encoding import decode_plain_text
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -82,17 +83,16 @@ def read_version_file() -> str:
     return "0.0.0"
 
 
+_ENCODING_ALIASES = {
+    "utf-8": "utf-8-sig",
+    "big5": "cp950",
+    "shift_jis": "cp932",
+}
+
+
 def _detect_text_encoding(data: bytes) -> str:
-    detected = detect_cjk_encoding(data)
-    encoding = detected.encoding or "utf-8-sig"
-
-    if encoding == "utf-8":
-        encoding = "utf-8-sig"
-
-    if encoding == "shift_jis":
-        return "cp932"
-
-    return encoding
+    encoding = detect_cjk_encoding(data).encoding or "utf-8-sig"
+    return _ENCODING_ALIASES.get(encoding, encoding)
 
 
 class MainWindow(QMainWindow):
@@ -1007,6 +1007,7 @@ class MainWindow(QMainWindow):
             auto_reflow_pdf=auto_reflow,
             compact_pdf=compact,
             convert_filename=convert_filename,
+            auto_detect_cjk_encoding=self.ui.actionAutoDetectCjkEncoding.isChecked(),
             parent=None,  # worker is thread-owned; no need to parent to MainWindow
         )
         self._batch_worker.moveToThread(self._batch_thread)
@@ -1103,6 +1104,7 @@ class MainWindow(QMainWindow):
         if selected_items:
             selected_item = selected_items[0]
             file_path = selected_item.text()
+            encoding = None
             try:
                 if is_docx(file_path):
                     contents = extract_docx_all_text(file_path)
@@ -1111,9 +1113,17 @@ class MainWindow(QMainWindow):
                 elif is_epub(file_path):
                     contents = extract_epub_all_text(file_path)
                 else:
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        contents = f.read()
-                self.ui.statusbar.showMessage(f"File preview: {selected_items[0].text()}")
+                    contents, encoding = decode_plain_text(
+                        Path(file_path).read_bytes(),
+                        self.ui.actionAutoDetectCjkEncoding.isChecked(),
+                        preview=True,
+                    )
+                label = (
+                    f"File preview ({encoding})"
+                    if encoding and self.ui.actionAutoDetectCjkEncoding.isChecked()
+                    else "File preview"
+                )
+                self.ui.statusbar.showMessage(f"{label}: {file_path}")
             except UnicodeDecodeError:
                 contents = "❌ Not a valid text file"  # Already initialized, but good to explicitly handle for clarity
                 self.ui.statusbar.showMessage(f"{file_path}: Not a valid text file.")
@@ -1199,7 +1209,7 @@ class MainWindow(QMainWindow):
         encodings = (
             ("UTF-8", "utf-8-sig"),
             ("GB18030 / GBK", "gb18030"),
-            ("Big5 / CP950", "big5"),
+            ("Big5 / CP950", "cp950"),
             ("Big5-HKSCS", "big5hkscs"),
             ("Shift-JIS / CP932", "cp932"),
             ("UTF-16 LE", "utf-16le"),
