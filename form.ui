@@ -197,6 +197,26 @@
           <string>t2jp (日/旧 -&gt; 日/新)</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>seal2s (小篆 -&gt; 简)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>seal2t (小篆 -&gt; 繁)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>s2seal (简 -&gt; 小篆)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>t2seal (繁 -&gt; 小篆)</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
