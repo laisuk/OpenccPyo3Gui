@@ -10,8 +10,9 @@ from typing import Optional, Callable
 
 import PySide6
 from PySide6.QtCore import Qt, Slot, QThread, QEvent, QSettings
-from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QActionGroup
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu, QFontDialog
+from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QActionGroup, QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu, QFontDialog, \
+    QWidget, QVBoxLayout
 
 from workers.batch_worker import BatchWorker
 from widgets.dictionary_widget import DictionaryWidget
@@ -229,8 +230,18 @@ class MainWindow(QMainWindow):
         self.ui.tbSource.openXmlDropped.connect(self._on_tb_source_non_pdf_dropped)
 
         self.converter = OpenCC()
-        self.dictionary_widget = DictionaryWidget(OpenCC.available_slots(), self)
-        self.ui.tabWidget.addTab(self.dictionary_widget, "Dictionary")
+        self.dictionary_tab = QWidget(self.ui.tabWidget)
+        self.dictionary_tab.setObjectName("tabDictionary")
+        dictionary_font = self.ui.tabWidget.font()
+        dictionary_font.setPointSize(10)
+        self.dictionary_tab.setFont(dictionary_font)
+        dictionary_layout = QVBoxLayout(self.dictionary_tab)
+        dictionary_layout.setObjectName("dictionaryLayout")
+        self.dictionary_widget = DictionaryWidget(OpenCC.available_slots(), self.dictionary_tab)
+        dictionary_layout.addWidget(self.dictionary_widget)
+        self.ui.tabWidget.addTab(
+            self.dictionary_tab, QIcon(":/images/resource/icons8-dictionary-64.png"), "Dictionary（字典）"
+        )
         self.dictionary_widget.apply_requested.connect(self.apply_custom_dictionaries)
 
     def apply_custom_dictionaries(self, rows: list) -> None:
@@ -924,7 +935,7 @@ class MainWindow(QMainWindow):
         Shell / entry point for the Process button.
         Decides which processing mode to run based on the selected tab.
         """
-        if self.ui.tabWidget.currentWidget() is self.dictionary_widget:
+        if self.ui.tabWidget.currentWidget() is self.dictionary_tab:
             self.ui.statusbar.showMessage("Use Apply to Current Converter to apply custom dictionaries.")
             return
         config = self.get_current_config()
