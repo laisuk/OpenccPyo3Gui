@@ -30,6 +30,11 @@ at [Release](https://github.com/laisuk/OpenccPyo3Gui/releases) section.
 - Designed to convert most **text based file types**, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`) and
   EPUB (`.epub`).
 - **Text-embedded PDF document** also supported.
+- **Custom Dictionary**: Configure ordered dictionary files in the Dictionary tab and apply them to interactive and
+  batch conversion. Append merges a slot; Override replaces it. Files use UTF-8 with TAB-separated source and target.
+  Choose a slot used by the selected conversion configuration (for example, `STPhrases` for `s2t`).
+  Rows are saved between sessions; click **Apply to Current Converter** to activate them. Remove all configured
+  files and apply to restore defaults. Requires `opencc-pyo3>=0.11.0`.
 
 ---
 

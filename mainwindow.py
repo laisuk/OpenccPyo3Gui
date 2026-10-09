@@ -14,7 +14,8 @@ from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QAct
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu, QFontDialog
 
 from workers.batch_worker import BatchWorker
-from opencc_pyo3 import OpenCC
+from widgets.dictionary_widget import DictionaryWidget
+from opencc_pyo3 import CustomDictFileSpec, OpenCC
 from opencc_pyo3.opencc_pyo3 import reflow_cjk_paragraphs as reflow_cjk_paragraphs_core
 from pdf_module.pdf_extract_worker import PdfExtractWorker
 from pdf_module.pdf_helper import build_progress_bar, extract_pdf_text_core
@@ -228,6 +229,34 @@ class MainWindow(QMainWindow):
         self.ui.tbSource.openXmlDropped.connect(self._on_tb_source_non_pdf_dropped)
 
         self.converter = OpenCC()
+        self.dictionary_widget = DictionaryWidget(OpenCC.available_slots(), self)
+        self.ui.tabWidget.addTab(self.dictionary_widget, "Dictionary")
+        self.dictionary_widget.apply_requested.connect(self.apply_custom_dictionaries)
+
+    def apply_custom_dictionaries(self, rows: list) -> None:
+        if self._batch_thread is not None:
+            self.ui.statusbar.showMessage("Wait until batch conversion has finished before applying dictionaries.")
+            return
+        try:
+            specs: list[CustomDictFileSpec] = []
+            slots = OpenCC.available_slots()
+            for index, row in enumerate(rows, start=1):
+                path = row["path"].strip()
+                if not path:
+                    continue
+                if row["slot"] not in slots or row["mode"] not in ("append", "override"):
+                    raise ValueError(f"Row {index}: invalid dictionary slot or mode")
+                specs.append({"slot": row["slot"], "mode": row["mode"], "files": [path]})
+            candidate = OpenCC.from_dict_files(self.get_current_config(), specs)
+        except Exception as error:
+            self.ui.statusbar.showMessage(f"Dictionary application failed: {error}")
+            QMessageBox.warning(self, "Custom Dictionary", str(error))
+            return
+        self.converter = candidate
+        self.dictionary_widget.set_active_count(len(specs))
+        self.ui.statusbar.showMessage(
+            f"Custom dictionaries applied ({len(specs)} files)." if specs else "Default dictionary restored."
+        )
 
     def show_cancel_button(self, handler) -> None:
         """Show Cancel button and connect to the given handler (no warnings)."""
@@ -446,6 +475,7 @@ class MainWindow(QMainWindow):
     def _on_batch_thread_finished(self) -> None:
         self._batch_thread = None
         self._batch_worker = None
+        self.dictionary_widget.set_apply_enabled(True)
 
     def on_batch_cancel_clicked(self):
         if self._batch_worker is not None:
@@ -529,7 +559,7 @@ class MainWindow(QMainWindow):
             self.ui.lblFilename.setEnabled(True)
             self.ui.btnSaveAs.setEnabled(True)
             self.ui.cbSaveTarget.setEnabled(True)
-        elif index == 1:
+        else:
             self.ui.btnOpenFile.setEnabled(False)
             self.ui.lblFilename.setEnabled(False)
             self.ui.btnSaveAs.setEnabled(False)
@@ -894,9 +924,12 @@ class MainWindow(QMainWindow):
         Shell / entry point for the Process button.
         Decides which processing mode to run based on the selected tab.
         """
+        if self.ui.tabWidget.currentWidget() is self.dictionary_widget:
+            self.ui.statusbar.showMessage("Use Apply to Current Converter to apply custom dictionaries.")
+            return
         config = self.get_current_config()
         is_punctuation = self.ui.cbPunct.isChecked()
-        self.converter.set_config(config)
+        self.converter.apply_config(config)
 
         current_tab = self.ui.tabWidget.currentIndex()
         if current_tab == 0:
@@ -997,6 +1030,7 @@ class MainWindow(QMainWindow):
 
         # Create thread + worker
         self._batch_thread = QThread(self)
+        self.dictionary_widget.set_apply_enabled(False)
         self._batch_worker = BatchWorker(
             files=files,
             out_dir=out_path,
