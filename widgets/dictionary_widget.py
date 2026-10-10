@@ -100,7 +100,7 @@ class DictionaryWidget(QWidget):
         file_layout = QHBoxLayout(cell)
         file_layout.setContentsMargins(0, 0, 0, 0)
         path_edit = QLineEdit(path, cell)
-        browse = QPushButton("Browse…", cell)
+        browse = QPushButton("Browse …", cell)
         file_layout.addWidget(path_edit)
         file_layout.addWidget(browse)
         remove = QPushButton("Remove", self.table)
