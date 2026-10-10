@@ -48,8 +48,12 @@ class DictionaryWidget(QWidget):
         self.table.setObjectName("dictionaryRows")
         self.table.setStyleSheet("QTableWidget#dictionaryRows { border: 2px solid #B0B0B0; }")
         self.table.setHorizontalHeaderLabels(["Slot", "Mode", "Dictionary file", "Remove"])
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
-        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        header = self.table.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        self.table.setColumnWidth(0, 180)  # Slot
+        self.table.setColumnWidth(1, 100)  # Mode
+        self.table.setColumnWidth(3, 80)  # Remove
         self.table.verticalHeader().hide()
         layout.addWidget(self.table)
         self.empty = QLabel("No custom dictionaries configured.")
@@ -103,7 +107,7 @@ class DictionaryWidget(QWidget):
         browse = QPushButton("Browse …", cell)
         file_layout.addWidget(path_edit)
         file_layout.addWidget(browse)
-        remove = QPushButton("Remove", self.table)
+        remove = QPushButton("Remove", cell)
         remove.setStyleSheet("QPushButton { color: #D32F2F; }")
         for column, widget in enumerate((slot_box, mode_box, cell, remove)):
             self.table.setCellWidget(index, column, widget)
