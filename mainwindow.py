@@ -541,10 +541,12 @@ class MainWindow(QMainWindow):
 
     def show_about(self) -> None:
         from about_dialog import AboutDialog, AboutInfo
+        from importlib.metadata import version
 
         details = "\n".join([
             f"Python: {platform.python_version()}",
             f"Qt: {PySide6.__version__}",
+            f"Converter: opencc-pyo3 {version('opencc-pyo3')}",
             f"Config: {self.get_current_config()}",
             f"PDF Engine: Pdfium (native)",
         ])
