@@ -11,6 +11,16 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ### Fixed
 
+- Pinned Nuitka to `4.2.2` after reproducing document-opening crashes with
+  `4.3` on Python `3.13.16` / PySide6 `6.12.0`. A compiled GUI diagnostic exited
+  with code `3` for both DOCX and PDF: traces stopped at the DOCX header
+  generator and creation of the PDF progress callback respectively. Rebuilding
+  the same application source with `4.2.2` opened both fixtures successfully
+  and returned code `0`. LTO-enabled compiled GUI checks also passed for TXT,
+  DOCX, ODT, EPUB, sequential PDF extraction, and background PDF extraction.
+  Rebuilt the release executable and passed all five existing tests. The earlier
+  About startup import workaround is retained.
+
 - Fixed clicking Help → About terminating the Nuitka executable with exit code
   `3` under Python 3.13 / PySide6 6.12 / Nuitka 4.3. The execution trace stopped
   during `AboutDialog` class definition when its module was imported from the
