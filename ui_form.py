@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'form.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -32,18 +32,18 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1120, 788)
         icon = QIcon()
-        icon.addFile(u":/images/resource/openccpyo3gui.ico", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/images/resource/openccpyo3gui.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.actionExit = QAction(MainWindow)
         self.actionExit.setObjectName(u"actionExit")
         icon1 = QIcon()
-        icon1.addFile(u":/images/resource/exit.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/images/resource/exit.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionExit.setIcon(icon1)
         self.actionExit.setMenuRole(QAction.MenuRole.NoRole)
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         icon2 = QIcon()
-        icon2.addFile(u":/images/resource/information.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/images/resource/information.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionAbout.setIcon(icon2)
         self.actionAbout.setMenuRole(QAction.MenuRole.NoRole)
         self.actionConvertFilename = QAction(MainWindow)
@@ -309,7 +309,7 @@ class Ui_MainWindow(object):
         self.btnReflow.setMaximumSize(QSize(30, 16777215))
         self.btnReflow.setFont(font3)
         icon3 = QIcon()
-        icon3.addFile(u":/images/resource/icons8-refresh-48.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/images/resource/icons8-refresh-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnReflow.setIcon(icon3)
         self.btnReflow.setIconSize(QSize(18, 18))
 
@@ -320,7 +320,10 @@ class Ui_MainWindow(object):
         self.btnNormCompat.setMinimumSize(QSize(0, 28))
         self.btnNormCompat.setMaximumSize(QSize(30, 16777215))
         self.btnNormCompat.setFont(font3)
-        self.btnNormCompat.setIconSize(QSize(16, 16))
+        icon4 = QIcon()
+        icon4.addFile(u":/images/resource/icons8-playlist-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnNormCompat.setIcon(icon4)
+        self.btnNormCompat.setIconSize(QSize(18, 18))
 
         self.horizontalLayout_source.addWidget(self.btnNormCompat)
 
@@ -476,9 +479,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_textBox)
 
-        icon4 = QIcon()
-        icon4.addFile(u":/images/resource/icons8-document-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.tabWidget.addTab(self.tab_main, icon4, "")
+        icon5 = QIcon()
+        icon5.addFile(u":/images/resource/icons8-document-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.tabWidget.addTab(self.tab_main, icon5, "")
         self.tab_batch = QWidget()
         self.tab_batch.setObjectName(u"tab_batch")
         self.verticalLayout = QVBoxLayout(self.tab_batch)
@@ -547,9 +550,9 @@ class Ui_MainWindow(object):
         font8.setPointSize(9)
         font8.setBold(False)
         self.btnPreview.setFont(font8)
-        icon5 = QIcon()
-        icon5.addFile(u":/images/resource/preview.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btnPreview.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(u":/images/resource/preview.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnPreview.setIcon(icon6)
         self.btnPreview.setIconSize(QSize(16, 16))
 
         self.horizontalLayout_listbox_buttons.addWidget(self.btnPreview)
@@ -585,9 +588,9 @@ class Ui_MainWindow(object):
         self.btnOutDir.setSizePolicy(sizePolicy1)
         self.btnOutDir.setMaximumSize(QSize(30, 16777215))
         self.btnOutDir.setFont(font3)
-        icon6 = QIcon()
-        icon6.addFile(u":/images/resource/icons8-folder-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btnOutDir.setIcon(icon6)
+        icon7 = QIcon()
+        icon7.addFile(u":/images/resource/icons8-folder-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnOutDir.setIcon(icon7)
         self.btnOutDir.setIconSize(QSize(18, 18))
 
         self.horizontalLayout_preview.addWidget(self.btnOutDir)
@@ -608,9 +611,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_listbox_action)
 
-        icon7 = QIcon()
-        icon7.addFile(u":/images/resource/icons8-documents-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.tabWidget.addTab(self.tab_batch, icon7, "")
+        icon8 = QIcon()
+        icon8.addFile(u":/images/resource/icons8-documents-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.tabWidget.addTab(self.tab_batch, icon8, "")
 
         self.verticalLayout_3.addWidget(self.tabWidget)
 
@@ -655,9 +658,9 @@ class Ui_MainWindow(object):
         font10.setPointSize(12)
         font10.setBold(True)
         self.btnProcess.setFont(font10)
-        icon8 = QIcon()
-        icon8.addFile(u":/images/resource/icons8-start-48.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btnProcess.setIcon(icon8)
+        icon9 = QIcon()
+        icon9.addFile(u":/images/resource/icons8-start-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnProcess.setIcon(icon9)
         self.btnProcess.setIconSize(QSize(24, 24))
 
         self.horizontalLayout_process.addWidget(self.btnProcess)
@@ -754,7 +757,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"OpenccPyo3Gui", None))
         self.actionExit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
-        self.actionConvertFilename.setText(QCoreApplication.translate("MainWindow", u"Convert Filename", None))
+        self.actionConvertFilename.setText(QCoreApplication.translate("MainWindow", u"Convert Filename (Batch)", None))
 #if QT_CONFIG(tooltip)
         self.actionConvertFilename.setToolTip(QCoreApplication.translate("MainWindow", u"Convert Filename in batch conversion", None))
 #endif // QT_CONFIG(tooltip)
@@ -813,7 +816,7 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(tooltip)
         self.btnNormCompat.setToolTip(QCoreApplication.translate("MainWindow", u"Normalize CJK compatibility ideographs and Unicode compatibility characters", None))
 #endif // QT_CONFIG(tooltip)
-        self.btnNormCompat.setText(QCoreApplication.translate("MainWindow", u"\u2261", None))
+        self.btnNormCompat.setText("")
 #if QT_CONFIG(tooltip)
         self.btnClearTbSource.setToolTip(QCoreApplication.translate("MainWindow", u"Clear source box contents", None))
 #endif // QT_CONFIG(tooltip)
