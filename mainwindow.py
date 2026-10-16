@@ -569,6 +569,7 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def tab_bar_changed(self, index: int) -> None:
+        self.ui.btnProcess.setEnabled(True) if index < 2 else self.ui.btnProcess.setEnabled(False)
         if index == 0:
             self.ui.btnOpenFile.setEnabled(True)
             self.ui.lblFilename.setVisible(True)
