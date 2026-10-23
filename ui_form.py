@@ -311,7 +311,7 @@ class Ui_MainWindow(object):
         icon3 = QIcon()
         icon3.addFile(u":/images/resource/icons8-refresh-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnReflow.setIcon(icon3)
-        self.btnReflow.setIconSize(QSize(18, 18))
+        self.btnReflow.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_source.addWidget(self.btnReflow)
 
@@ -323,7 +323,7 @@ class Ui_MainWindow(object):
         icon4 = QIcon()
         icon4.addFile(u":/images/resource/icons8-playlist-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnNormCompat.setIcon(icon4)
-        self.btnNormCompat.setIconSize(QSize(18, 18))
+        self.btnNormCompat.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_source.addWidget(self.btnNormCompat)
 
@@ -438,7 +438,7 @@ class Ui_MainWindow(object):
         self.btnDeTofu.setMinimumSize(QSize(0, 28))
         self.btnDeTofu.setMaximumSize(QSize(30, 16777215))
         self.btnDeTofu.setFont(font3)
-        self.btnDeTofu.setIconSize(QSize(18, 18))
+        self.btnDeTofu.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_deatination.addWidget(self.btnDeTofu)
 
@@ -553,7 +553,7 @@ class Ui_MainWindow(object):
         icon6 = QIcon()
         icon6.addFile(u":/images/resource/preview.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnPreview.setIcon(icon6)
-        self.btnPreview.setIconSize(QSize(16, 16))
+        self.btnPreview.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_listbox_buttons.addWidget(self.btnPreview)
 
@@ -589,9 +589,9 @@ class Ui_MainWindow(object):
         self.btnOutDir.setMaximumSize(QSize(30, 16777215))
         self.btnOutDir.setFont(font3)
         icon7 = QIcon()
-        icon7.addFile(u":/images/resource/icons8-folder-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon7.addFile(u":/images/resource/icons8-opened-folder-40.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnOutDir.setIcon(icon7)
-        self.btnOutDir.setIconSize(QSize(18, 18))
+        self.btnOutDir.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_preview.addWidget(self.btnOutDir)
 
