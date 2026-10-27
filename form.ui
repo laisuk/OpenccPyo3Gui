@@ -1483,6 +1483,16 @@
           <property name="text">
            <string>Exit</string>
           </property>
+          <property name="icon">
+           <iconset resource="resource.qrc">
+            <normaloff>:/images/resource/exit.png</normaloff>:/images/resource/exit.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>18</width>
+            <height>18</height>
+           </size>
+          </property>
          </widget>
         </item>
        </layout>
@@ -1614,13 +1624,16 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Auto-Reflow PDF Text</string>
    </property>
   </action>
   <action name="actionSelectEditorFont">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
+   </property>
    <property name="text">
     <string>Select Editor Font ...</string>
    </property>
@@ -1634,6 +1647,9 @@
    </property>
   </action>
   <action name="actionFind">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::EditFind"/>
+   </property>
    <property name="text">
     <string>Find</string>
    </property>
