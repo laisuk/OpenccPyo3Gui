@@ -27,6 +27,9 @@ at [Release](https://github.com/laisuk/OpenccPyo3Gui/releases) section.
 
 - **Chinese Conversion**: Convert between simplified and traditional Chinese text.
 - **Single/Batch Conversion**: Perform Chinese text conversion in single or batch mode.
+- **Find and Replace**: Use `Ctrl+F` to search the focused Source or Destination editor and `Ctrl+H` to
+  replace in Source. Supports match case, whole words, regex, match counts and highlights, and wraparound
+  navigation with `F3` / `Shift+F3`. Replace All is undoable in one step; replacement text is literal.
 - Designed to convert most **text based file types**, **Office documents** (`.docx`, `.xlsx`, `.pptx`, `.odt`) and
   EPUB (`.epub`).
 - **Text-embedded PDF document** also supported.

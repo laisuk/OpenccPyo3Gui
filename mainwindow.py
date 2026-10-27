@@ -10,7 +10,7 @@ from typing import Optional, Callable
 
 import PySide6
 from PySide6.QtCore import Qt, Slot, QThread, QEvent, QSettings
-from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QActionGroup, QIcon
+from PySide6.QtGui import QGuiApplication, QTextCursor, QMouseEvent, QFont, QActionGroup, QIcon, QAction, QKeySequence
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QPushButton, QMenu, QFontDialog, \
     QWidget, QVBoxLayout
 
@@ -33,6 +33,7 @@ from openxml_module.epub_helper import (
 )
 from helpers.cjk_encoding_detector import detect_cjk_encoding
 from helpers.plain_text_encoding import decode_plain_text
+from helpers.find_replace_dialog import FindReplaceDialog
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -104,6 +105,19 @@ class MainWindow(QMainWindow):
         self._batch_thread = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self._find_replace_dialog: FindReplaceDialog | None = None
+        self._next_action = QAction('Find Next', self)
+        self._next_action.setShortcut(QKeySequence('F3'))
+        self._next_action.triggered.connect(lambda: self.navigate_find(False))
+        self._previous_action = QAction('Find Previous', self)
+        self._previous_action.setShortcut(QKeySequence('Shift+F3'))
+        self._previous_action.triggered.connect(lambda: self.navigate_find(True))
+        self.addActions([self._next_action, self._previous_action])
+        for editor in (self.ui.tbSource, self.ui.tbDestination):
+            editor.setStyleSheet(
+                editor.styleSheet()
+                + ' QPlainTextEdit { selection-background-color: #2878D7; selection-color: white; }'
+            )
         self.resize(1000, 700)
 
         self._current_text_encoding = "utf-8-sig"
@@ -224,6 +238,8 @@ class MainWindow(QMainWindow):
         self.ui.cbManual.activated.connect(self.cb_manual_activated)
         self.ui.actionAbout.triggered.connect(self.action_about_triggered)
         self.ui.actionSelectEditorFont.triggered.connect(self.action_select_editor_font_triggered)
+        self.ui.actionFind.triggered.connect(lambda: self.show_find_replace(False))
+        self.ui.actionReplace.triggered.connect(lambda: self.show_find_replace(True))
         self.ui.actionExit.triggered.connect(btn_exit_click)
         self.ui.tbSource.fileDropped.connect(self._on_tb_source_file_dropped)
         self.ui.tbSource.pdfDropped.connect(self._on_tb_source_pdf_dropped)
@@ -1353,6 +1369,33 @@ class MainWindow(QMainWindow):
                 "Encoding Error",
                 f"Failed to reload file using {encoding}:\n{ex}",
             )
+
+    def show_find_replace(self, replace_mode: bool = False) -> None:
+        """Open Find / Replace for the focused editor, defaulting to Source."""
+        source = self.ui.tbSource
+        destination = self.ui.tbDestination
+
+        if replace_mode:
+            editor = source
+        elif destination.hasFocus():
+            editor = destination
+        else:
+            editor = source
+
+        if self._find_replace_dialog is None:
+            self._find_replace_dialog = FindReplaceDialog(editor, self)
+        else:
+            self._find_replace_dialog.set_editor(editor)
+
+        self.ui.tabWidget.setCurrentWidget(self.ui.tabMain)
+        editor.setFocus()
+        self._find_replace_dialog.open_find(replace_mode)
+
+    def navigate_find(self, backward: bool = False) -> None:
+        if self._find_replace_dialog is None:
+            self.show_find_replace()
+        else:
+            self._find_replace_dialog.navigate(backward)
 
 
 def btn_exit_click():
