@@ -113,11 +113,6 @@ class MainWindow(QMainWindow):
         self._previous_action.setShortcut(QKeySequence('Shift+F3'))
         self._previous_action.triggered.connect(lambda: self.navigate_find(True))
         self.addActions([self._next_action, self._previous_action])
-        for editor in (self.ui.tbSource, self.ui.tbDestination):
-            editor.setStyleSheet(
-                editor.styleSheet()
-                + ' QPlainTextEdit { selection-background-color: #2878D7; selection-color: white; }'
-            )
         self.resize(1000, 700)
 
         self._current_text_encoding = "utf-8-sig"
