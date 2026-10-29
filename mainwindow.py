@@ -34,6 +34,7 @@ from openxml_module.epub_helper import (
 from helpers.cjk_encoding_detector import detect_cjk_encoding
 from helpers.plain_text_encoding import decode_plain_text
 from helpers.find_replace_dialog import FindReplaceDialog
+from helpers.go_to_line import GoToLine
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -254,6 +255,7 @@ class MainWindow(QMainWindow):
         self.ui.tbSource.fileDropped.connect(self._on_tb_source_file_dropped)
         self.ui.tbSource.pdfDropped.connect(self._on_tb_source_pdf_dropped)
         self.ui.tbSource.openXmlDropped.connect(self._on_tb_source_non_pdf_dropped)
+        self.ui.actionGoToLine.triggered.connect(self.show_go_to_line)
 
         self.converter = OpenCC()
         self.dictionary_tab = QWidget(self.ui.tabWidget)
@@ -1406,6 +1408,16 @@ class MainWindow(QMainWindow):
             self.show_find_replace()
         else:
             self._find_replace_dialog.navigate(backward)
+
+    def show_go_to_line(self) -> None:
+        """Go to a line in the focused editor, defaulting to Source."""
+        editor = (
+            self.ui.tbDestination
+            if self.ui.tbDestination.hasFocus()
+            else self.ui.tbSource
+        )
+
+        GoToLine.show(editor, self)
 
 
 def btn_exit_click():
