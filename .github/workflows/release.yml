@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Use standard setup for everything EXCEPT macOS Intel.
       # On macos-15-intel, we skip 'setup-python' because the runner's pre-installed
@@ -48,12 +48,12 @@ jobs:
       # and 'libssl' resolution errors that crash the Nuitka dependency scanner.
       - name: Set up Python (Standard)
         if: matrix.os != 'macos-15-intel'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.10'
+          python-version: '3.14'
 
       - name: Cache pip
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.cache/pip
@@ -300,7 +300,7 @@ jobs:
           cd ..
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: OpenccPyo3Gui-${{ github.ref_name }}-${{ matrix.artifact_suffix }}
           path: ${{ matrix.archive_name }}
@@ -308,7 +308,7 @@ jobs:
 
       - name: Upload artifact (MSI)
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: OpenccPyo3Gui-${{ github.ref_name }}-win-x64-msi
           path: ${{ matrix.msi_name }}
@@ -320,7 +320,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: dist
 
@@ -330,7 +330,7 @@ jobs:
           find dist -type f -maxdepth 2
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
