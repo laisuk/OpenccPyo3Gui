@@ -1,7 +1,7 @@
 """Modeless Find / Replace dialog for a QPlainTextEdit editor."""
 from __future__ import annotations
 
-from PySide6.QtCore import QEvent, QObject, Qt, QRegularExpression, QSettings, QTimer
+from PySide6.QtCore import QEvent, Qt, QRegularExpression, QSettings, QTimer
 from PySide6.QtGui import QColor, QTextCursor, QTextDocument
 from PySide6.QtWidgets import (
     QCheckBox, QDialog, QHBoxLayout, QLabel, QLineEdit,
