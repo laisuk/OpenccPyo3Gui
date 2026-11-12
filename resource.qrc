@@ -18,6 +18,7 @@
     <file>resource/detofu.png</file>
     <file>resource/information.png</file>
     <file>resource/preview.png</file>
+    <file>resource/visual.png</file>
     <file>resource/exit.png</file>
     <file>resource/openccpyo3gui.ico</file>
   </qresource>
