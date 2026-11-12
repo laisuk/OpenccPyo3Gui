@@ -660,6 +660,7 @@ class Ui_MainWindow(object):
         icon16 = QIcon()
         icon16.addFile(u":/images/resource/icons8-add-file-50.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnOpenFile.setIcon(icon16)
+        self.btnOpenFile.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_openFile.addWidget(self.btnOpenFile)
 
@@ -694,7 +695,7 @@ class Ui_MainWindow(object):
         icon17 = QIcon()
         icon17.addFile(u":/images/resource/icons8-start-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnProcess.setIcon(icon17)
-        self.btnProcess.setIconSize(QSize(24, 24))
+        self.btnProcess.setIconSize(QSize(28, 28))
 
         self.horizontalLayout_process.addWidget(self.btnProcess)
 
@@ -724,6 +725,7 @@ class Ui_MainWindow(object):
         icon18 = QIcon()
         icon18.addFile(u":/images/resource/icons8-save-as-50.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnSaveAs.setIcon(icon18)
+        self.btnSaveAs.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_saveExit.addWidget(self.btnSaveAs)
 
@@ -733,7 +735,7 @@ class Ui_MainWindow(object):
         self.btnExit.setSizePolicy(sizePolicy1)
         self.btnExit.setFont(font9)
         self.btnExit.setIcon(icon1)
-        self.btnExit.setIconSize(QSize(14, 14))
+        self.btnExit.setIconSize(QSize(16, 16))
 
         self.horizontalLayout_saveExit.addWidget(self.btnExit)
 
