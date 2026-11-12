@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.actionExit = QAction(MainWindow)
         self.actionExit.setObjectName(u"actionExit")
         icon1 = QIcon()
-        icon1.addFile(u":/images/resource/exit.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/images/resource/icons8-exit-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.actionExit.setIcon(icon1)
         self.actionExit.setMenuRole(QAction.MenuRole.NoRole)
         self.actionAbout = QAction(MainWindow)
@@ -342,7 +342,7 @@ class Ui_MainWindow(object):
         self.btnNormCompat.setMaximumSize(QSize(30, 16777215))
         self.btnNormCompat.setFont(font3)
         icon8 = QIcon()
-        icon8.addFile(u":/images/resource/icons8-playlist-64.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon8.addFile(u":/images/resource/icons8-playlist-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnNormCompat.setIcon(icon8)
         self.btnNormCompat.setIconSize(QSize(20, 20))
 
@@ -581,7 +581,7 @@ class Ui_MainWindow(object):
         font8.setBold(False)
         self.btnPreview.setFont(font8)
         icon13 = QIcon()
-        icon13.addFile(u":/images/resource/preview.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon13.addFile(u":/images/resource/visual.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnPreview.setIcon(icon13)
         self.btnPreview.setIconSize(QSize(20, 20))
 
@@ -619,9 +619,9 @@ class Ui_MainWindow(object):
         self.btnOutDir.setMaximumSize(QSize(30, 16777215))
         self.btnOutDir.setFont(font3)
         icon14 = QIcon()
-        icon14.addFile(u":/images/resource/icons8-opened-folder-40.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon14.addFile(u":/images/resource/icons8-opened-folder-48.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnOutDir.setIcon(icon14)
-        self.btnOutDir.setIconSize(QSize(21, 21))
+        self.btnOutDir.setIconSize(QSize(22, 22))
 
         self.horizontalLayout_preview.addWidget(self.btnOutDir)
 
@@ -666,8 +666,11 @@ class Ui_MainWindow(object):
 
         self.lblFilename = QLabel(self.centralwidget)
         self.lblFilename.setObjectName(u"lblFilename")
-        sizePolicy.setHeightForWidth(self.lblFilename.sizePolicy().hasHeightForWidth())
-        self.lblFilename.setSizePolicy(sizePolicy)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.lblFilename.sizePolicy().hasHeightForWidth())
+        self.lblFilename.setSizePolicy(sizePolicy3)
         self.lblFilename.setFont(font9)
         self.lblFilename.setMargin(5)
 
@@ -677,7 +680,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_openFile.addItem(self.horizontalSpacer_1)
 
-        self.horizontalLayout_openFile.setStretch(2, 1)
+        self.horizontalLayout_openFile.setStretch(1, 1)
 
         self.horizontalLayout_action_main.addLayout(self.horizontalLayout_openFile)
 
@@ -735,7 +738,7 @@ class Ui_MainWindow(object):
         self.btnExit.setSizePolicy(sizePolicy1)
         self.btnExit.setFont(font9)
         self.btnExit.setIcon(icon1)
-        self.btnExit.setIconSize(QSize(16, 16))
+        self.btnExit.setIconSize(QSize(20, 20))
 
         self.horizontalLayout_saveExit.addWidget(self.btnExit)
 
