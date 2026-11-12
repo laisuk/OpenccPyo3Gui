@@ -7,7 +7,13 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
-## [1.3.0] - Unreleased
+## \[1.3.0] - Unreleased
+
+### Added
+
+- Added Settings > Theme modes (Follow System, Light, and Dark), saved preferences,
+  system theme updates, and palette refreshes for open widgets. About dialog text
+  now follows the active theme palette.
 
 ### Fixed
 
@@ -77,7 +83,7 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
-## [1.2.0] - 2026-05-25
+## \[1.2.0] - 2026-05-25
 
 ## Changed
 
@@ -85,7 +91,7 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
-## [1.1.0] - 2026-04-29
+## \[1.1.0] - 2026-04-29
 
 ## Changed
 
@@ -93,7 +99,7 @@ the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
 ---
 
-## [1.0.0] – 2025-09-05
+## \[1.0.0] – 2025-09-05
 
 ### Added
 
