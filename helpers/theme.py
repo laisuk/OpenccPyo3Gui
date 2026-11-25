@@ -59,6 +59,7 @@ class Theme(QObject):
         super().__init__(app)
         self.app = app
         self.mode = 0
+        self._previous_style = None
         hints = app.styleHints()
         if hasattr(hints, 'colorSchemeChanged'):
             hints.colorSchemeChanged.connect(
@@ -77,6 +78,17 @@ class Theme(QObject):
     def apply(self, mode):
         self.mode = normalize_mode(mode)
         hints = self.app.styleHints()
+        if self.mode == 2 and not hasattr(hints, 'setColorScheme'):
+            # Older Windows styles paint some controls with native light colors
+            # even when given a dark palette.
+            style_name = self.app.style().objectName()
+            if (self.app.platformName() == 'windows'
+                    and style_name.lower() in ('windowsvista', 'windows')):
+                self.app.setStyle('Fusion')
+                self._previous_style = style_name
+        elif self._previous_style is not None:
+            self.app.setStyle(self._previous_style)
+            self._previous_style = None
         if self.mode == 0:
             if hasattr(hints, 'unsetColorScheme'):
                 hints.unsetColorScheme()
